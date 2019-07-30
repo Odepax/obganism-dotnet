@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
-using Obganism.Definitions;
 
-namespace Definitions.Tests
+namespace Obganism.Definitions.Tests
 {
 	public class TypeEqualityTests
 	{

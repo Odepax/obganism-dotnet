@@ -11,26 +11,23 @@ namespace Obganism.Definitions
 
 		public Type(string name, IEnumerable<Type> generics)
 		{
-			Name = name ?? string.Empty;
-			Generics = new List<Type>(generics ?? new Type[0]);
+			Name = name;
+			Generics = new List<Type>(generics);
 		}
 
 		public Type(string name, params Type[] generics) : this(name, generics as IEnumerable<Type>)
 		{
 		}
 
-		public override bool Equals(object other) =>
-			!(other is null) && (
-				ReferenceEquals(other, this) || (
-					   ReferenceEquals(GetType(), other.GetType())
-					&& Equals(other as Type)
-				)
+		public override bool Equals(object? obj) =>
+			!(obj is null) && (
+				   ReferenceEquals(this, obj)
+				|| obj is Type other && Equals(other)
 			);
 
 		public bool Equals(Type other) =>
 			ReferenceEquals(this, other) || (
-				   !(other is null)
-				&& Name.Equals(other.Name, StringComparison.Ordinal)
+				   Name.Equals(other.Name, StringComparison.Ordinal)
 				&& Generics.SequenceEqual(other.Generics)
 			);
 
@@ -50,7 +47,7 @@ namespace Obganism.Definitions
 
 		/// <summary>
 		/// This method is intended for debug purposes.
-		/// Changes will not take part in API versionning.
+		/// It will not take part in API versionning.
 		/// </summary>
 		public override string ToString() =>
 			$"{ Name }{ (Generics.Count == 0 ? "" : $"({ string.Join(",", Generics) })") }";
