@@ -36,11 +36,7 @@ namespace Obganism.Definitions
 			HashCode hashCode = new HashCode();
 
 			hashCode.Add(Name, StringComparer.OrdinalIgnoreCase);
-
-			foreach (Type type in Generics)
-			{
-				hashCode.Add(type);
-			}
+			hashCode.AddAll(Generics);
 
 			return hashCode.ToHashCode();
 		}

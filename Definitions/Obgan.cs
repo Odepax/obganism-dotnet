@@ -36,11 +36,7 @@ namespace Obganism.Definitions
 			HashCode hashCode = new HashCode();
 
 			hashCode.Add(Type);
-
-			foreach (Property property in Properties)
-			{
-				hashCode.Add(property);
-			}
+			hashCode.AddAll(Properties);
 
 			return hashCode.ToHashCode();
 		}
