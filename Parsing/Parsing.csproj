@@ -11,7 +11,15 @@
 		<RootNamespace>Obganism.Parsing</RootNamespace>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<Version>0.1.0</Version>
+		<Description>Obganism parser for the .NET platforms.</Description>
+		<Product>Obganism</Product>
+		<Authors>Odepax</Authors>
+	</PropertyGroup>
+
 	<ItemGroup>
+		<PackageReference Include="Obganism.Definitions" Version="0.1.0" />
 		<PackageReference Include="Sprache" Version="2.2.0" />
 	</ItemGroup>
 

@@ -11,4 +11,11 @@
 		<RootNamespace>Obganism.Definitions</RootNamespace>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<Version>0.1.0</Version>
+		<Description>Data structures for the .NET Obganism parser.</Description>
+		<Product>Obganism</Product>
+		<Authors>Odepax</Authors>
+	</PropertyGroup>
+
 </Project>

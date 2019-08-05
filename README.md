@@ -62,6 +62,8 @@ Roadmap
 ----
 
 - [ ] CI tests
+- [ ] CI coverage
+- [ ] CI static code analysis
 - [ ] CD nugets
 - [ ] Badges
 - [ ] Parsing
