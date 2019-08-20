@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace Obganism.Parsing
 {
@@ -13,7 +12,7 @@ namespace Obganism.Parsing
 		public string Comment { get; }
 
 		public ObganismParsingException(int position, int line, int column, string context, string comment)
-			: base($"Invalid Obganism @ char #{ position }, near \"{ context }\": { comment }")
+			: base($"Invalid Obganism @{ position } L{ line } C{ column }, search for << { context } >> : { comment }")
 		{
 			Position = position;
 			Line = line;
@@ -21,16 +20,5 @@ namespace Obganism.Parsing
 			Context = context;
 			Comment = comment;
 		}
-
-		public string LongMessage =>
-			new StringBuilder()
-				.AppendLine("Invalid Obganism   c(T~Tu)")
-				.AppendLine("----")
-				.AppendLine($"Position: character #{ Position }")
-				.AppendLine($"Line: { Line }")
-				.AppendLine($"Column: { Column }")
-				.AppendLine($"Context: near \"{ Context }\"")
-				.AppendLine($"Comment: { Comment }")
-				.ToString();
 	}
 }
