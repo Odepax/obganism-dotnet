@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Obganism.Definitions;
-using Obganism.Extensions.Parsing;
+using static Obganism.Parsing.ObganismParsing;
 
 namespace Obganism.Parsing.Tests
 {
@@ -11,18 +10,27 @@ namespace Obganism.Parsing.Tests
 		[TestCaseSource(nameof(EmptySamples))]
 		[TestCaseSource(nameof(SimpleTypeSamples))]
 		[TestCaseSource(nameof(GenericTypeSamples))]
-		public void These_parsing_samples_succeed(string input, IReadOnlyList<Obgan> expectedOutput) =>
-			Assert.AreEqual(expectedOutput, input.ConvertFromObganism());
+		[TestCaseSource(nameof(MultiGenericTypeSamples))]
+		[TestCaseSource(nameof(EmptyObganSamples))]
+		[TestCaseSource(nameof(SinglePropertySamples))]
+		[TestCaseSource(nameof(MultiPropertySamples))]
+		[TestCaseSource(nameof(MultiObganSamples))]
+		public void These_parsing_samples_succeed(string input, Obgan[] expectedOutput) =>
+			Assert.AreEqual(expectedOutput, ConvertFromObganism(input));
 
 		public static readonly object[] EmptySamples =
 		{
 			new object[] {
 				"",
-				new List<Obgan>(0)
+				new Obgan[0]
+			},
+			new object[] {
+				" \t ",
+				new Obgan[0]
 			},
 			new object[] {
 				" \n ",
-				new List<Obgan>(0)
+				new Obgan[0]
 			}
 		};
 
@@ -31,17 +39,26 @@ namespace Obganism.Parsing.Tests
 			new object[]
 			{
 				"cat",
-				new List<Obgan> { new Obgan(new Type("cat")) }
+				new[] { new Obgan(new Type("cat")) }
 			},
 			new object[]
 			{
 				"big cat",
-				new List<Obgan> { new Obgan(new Type("big cat")) }
+				new[] { new Obgan(new Type("big cat")) }
 			},
 			new object[]
 			{
 				"big \t cat",
-				new List<Obgan> { new Obgan(new Type("big cat")) }
+				new[] { new Obgan(new Type("big cat")) }
+			},
+			new object[]
+			{
+				"big \n cat",
+				new[]
+				{
+					new Obgan(new Type("big")),
+					new Obgan(new Type("cat"))
+				}
 			}
 		};
 
@@ -50,42 +67,201 @@ namespace Obganism.Parsing.Tests
 			new object[]
 			{
 				"pointer of cat",
-				new List<Obgan> { new Obgan(new Type("pointer", new Type("cat"))) }
+				new[] { new Obgan(new Type("pointer", new Type("cat"))) }
 			},
 			new object[]
 			{
 				"pointer \t of \t cat",
-				new List<Obgan> { new Obgan(new Type("pointer", new Type("cat"))) }
+				new[] { new Obgan(new Type("pointer", new Type("cat"))) }
 			},
 			new object[]
 			{
 				"pointer \n of \n cat",
-				new List<Obgan> { new Obgan(new Type("pointer", new Type("cat"))) }
+				new[] { new Obgan(new Type("pointer", new Type("cat"))) }
 			},
 			new object[]
 			{
 				"pointer \\of cat",
-				new List<Obgan> { new Obgan(new Type("pointer of cat")) }
+				new[] { new Obgan(new Type("pointer of cat")) }
 			},
 			new object[]
 			{
 				"pointer \t \\of \t cat",
-				new List<Obgan> { new Obgan(new Type("pointer of cat")) }
+				new[] { new Obgan(new Type("pointer of cat")) }
+			},
+			new object[]
+			{
+				"pointer \n \\of \n cat",
+				new[]
+				{
+					new Obgan(new Type("pointer")),
+					new Obgan(new Type("of")),
+					new Obgan(new Type("cat"))
+				}
 			},
 			new object[]
 			{
 				"list of friend \\of mine",
-				new List<Obgan> { new Obgan(new Type("list", new Type("friend of mine"))) }
+				new[] { new Obgan(new Type("list", new Type("friend of mine"))) }
 			},
 			new object[]
 			{
 				"coffee",
-				new List<Obgan> { new Obgan(new Type("coffee")) }
+				new[] { new Obgan(new Type("coffee")) }
 			},
 			new object[]
 			{
-				"offer",
-				new List<Obgan> { new Obgan(new Type("offer")) }
+				"special offer",
+				new[] { new Obgan(new Type("special offer")) }
+			}
+		};
+
+		public static readonly object[] MultiGenericTypeSamples =
+		{
+			new object[]
+			{
+				"list of pointer of cat",
+				new[] { new Obgan(new Type("list", new Type("pointer", new Type("cat")))) }
+			},
+			new object[]
+			{
+				"map of (int,cat)",
+				new[] { new Obgan(new Type("map", new Type("int"), new Type("cat"))) }
+			},
+			new object[]
+			{
+				"map of \t ( \t int \t , \t cat \t )",
+				new[] { new Obgan(new Type("map", new Type("int"), new Type("cat"))) }
+			},
+			new object[]
+			{
+				"map of \n ( \n int \n , \n cat \n )",
+				new[] { new Obgan(new Type("map", new Type("int"), new Type("cat"))) }
+			},
+			new object[]
+			{
+				"map of \n ( \n int \n cat \n )",
+				new[] { new Obgan(new Type("map", new Type("int"), new Type("cat"))) }
+			}
+		};
+
+		public static readonly object[] EmptyObganSamples =
+		{
+			new object[] {
+				"cat{}",
+				new[] { new Obgan(new Type("cat")) }
+			},
+			new object[] {
+				"cat \t { \t }",
+				new[] { new Obgan(new Type("cat")) }
+			},
+			new object[] {
+				"cat \n { \n }",
+				new[] { new Obgan(new Type("cat")) }
+			}
+		};
+
+		public static readonly object[] SinglePropertySamples =
+		{
+			new object[] {
+				"cat{name:string}",
+				new[] { new Obgan(new Type("cat"), new Property("name", new Type("string"))) }
+			},
+			new object[] {
+				"cat \t { \t name \t : \t string \t }",
+				new[] { new Obgan(new Type("cat"), new Property("name", new Type("string"))) }
+			},
+			new object[] {
+				"cat \n { \n name \n : \n string \n }",
+				new[] { new Obgan(new Type("cat"), new Property("name", new Type("string"))) }
+			},
+			new object[] {
+				"cat { friend of mine : friend of mine }",
+				new[] { new Obgan(new Type("cat"), new Property("friend of mine", new Type("friend", new Type("mine")))) }
+			}
+		};
+
+		public static readonly object[] MultiPropertySamples =
+		{
+			new object[] {
+				"cat { id : int,name : string }",
+				new[]
+				{
+					new Obgan(new Type("cat"),
+						new Property("id", new Type("int")),
+						new Property("name", new Type("string"))
+					)
+				}
+			},
+			new object[] {
+				"cat { id : int \t , \t name : string }",
+				new[]
+				{
+					new Obgan(new Type("cat"),
+						new Property("id", new Type("int")),
+						new Property("name", new Type("string"))
+					)
+				}
+			},
+			new object[] {
+				"cat { id : int \n , \n name : string }",
+				new[]
+				{
+					new Obgan(new Type("cat"),
+						new Property("id", new Type("int")),
+						new Property("name", new Type("string"))
+					)
+				}
+			},
+			new object[] {
+				"cat { id : int \n name : string }",
+				new[]
+				{
+					new Obgan(new Type("cat"),
+						new Property("id", new Type("int")),
+						new Property("name", new Type("string"))
+					)
+				}
+			}
+		};
+
+		public static readonly object[] MultiObganSamples =
+		{
+			new object[] {
+				"cat,dog,camel",
+				new[]
+				{
+					new Obgan(new Type("cat")),
+					new Obgan(new Type("dog")),
+					new Obgan(new Type("camel"))
+				}
+			},
+			new object[] {
+				"cat \t , \t dog \t , \t camel",
+				new[]
+				{
+					new Obgan(new Type("cat")),
+					new Obgan(new Type("dog")),
+					new Obgan(new Type("camel"))
+				}
+			},
+			new object[] {
+				"cat \n , \n dog \n , \n camel",
+				new[]
+				{
+					new Obgan(new Type("cat")),
+					new Obgan(new Type("dog")),
+					new Obgan(new Type("camel"))
+				}
+			},
+			new object[] {
+				"cat \n dog \n camel",
+				new[]
+				{
+					new Obgan(new Type("cat")),
+					new Obgan(new Type("dog")),
+					new Obgan(new Type("camel"))
+				}
 			}
 		};
 
@@ -94,10 +270,10 @@ namespace Obganism.Parsing.Tests
 		public void These_parsing_samples_fail(string input, ObganismParsingException expectedError)
 		{
 			ObganismParsingException actualError = Assert.Throws<ObganismParsingException>(() =>
-				input.ConvertFromObganism()
+				ConvertFromObganism(input)
 			);
 
-			// I don't care about the exception implementing .Equals().
+			// I don't care about the exception implementing .Equals() or not.
 			Assert.AreEqual(expectedError.Position, actualError.Position);
 			Assert.AreEqual(expectedError.Line, actualError.Line);
 			Assert.AreEqual(expectedError.Column, actualError.Column);
@@ -110,7 +286,7 @@ namespace Obganism.Parsing.Tests
 			new object[]
 			{
 				"c4t",
-				new ObganismParsingException(1, 1, 2, "c4t", "Names can contain only unaccentuated letters.")
+				new ObganismParsingException(0, 1, 1, "c4t", "Names can contain only unaccentuated letters.")
 			},
 			new object[]
 			{
