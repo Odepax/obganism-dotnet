@@ -115,10 +115,20 @@ namespace Obganism.Parsing
 			from generics in Formatting
 				.IgnoreThen(Span.EqualTo("of"))
 				.IgnoreThen(Formatting)
-				.IgnoreThen(Parse.Ref(() => Type))
+				.IgnoreThen(
+					(
+						Parse.Ref(() => Type)
+							.Select(generic => new[] { generic } as IEnumerable<Type>)
+					).Or(
+						Parse.Ref(() => Type)
+							.ManyDelimitedByIgnoreTrailing(Break)
+							.Between(Formatting, Formatting)
+							.Between(Character.EqualTo('('), Character.EqualTo(')'))
+					)
+				)
 				.Try()
-				.OptionalOrDefault()
-			select new Type(name, generics is null ? new List<Type>(0) : new List<Type> { generics })
+				.OptionalOrDefault(new Definitions.Type[0])
+			select new Type(name, generics)
 		);
 
 		private static readonly TextParser<Property> Property = (
