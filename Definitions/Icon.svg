@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="256" height="256" viewBox="0 0 67.733332 67.733335" version="1.1" id="svg8" inkscape:version="0.92.4 (5da689c313, 2019-01-14)" sodipodi:docname="icon.svg">
+<defs id="defs2" />
+<sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1" inkscape:cx="296.6109" inkscape:cy="80.342287" inkscape:document-units="px" inkscape:current-layer="layer1" showgrid="false" units="px" inkscape:snap-page="false" inkscape:snap-nodes="false" inkscape:snap-bbox="true" inkscape:bbox-nodes="true" inkscape:snap-bbox-midpoints="false" inkscape:snap-bbox-edge-midpoints="false" inkscape:object-nodes="true" />
+<metadata id="metadata5">
+<rdf:RDF>
+<cc:Work rdf:about="">
+<dc:format>image/svg+xml</dc:format>
+<dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+<dc:title></dc:title>
+</cc:Work>
+</rdf:RDF>
+</metadata>
+<g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(0,-229.26666)">
+<g id="g1518">
+<rect y="229.26675" x="0" height="67.733353" width="67.733337" id="rect1222" style="fill:#f0f0f0;stroke-width:1.58749998" />
+<path inkscape:connector-curvature="0" style="fill:#a28062;stroke-width:0.26457769" d="m 10.20341,249.52534 c 13.060408,2.32419 14.043449,0.52662 12.49867,7.26748 -3.721514,15.2231 3.229993,14.90712 1.474562,21.43733 -0.983042,3.47575 -2.668256,1.79054 -11.304977,-7.32366 -5.7578141,-6.05273 -4.9854244,-21.80246 -2.668255,-21.38115 z" id="path1415-61-2" />
+<path inkscape:connector-curvature="0" style="fill:#a28062;stroke-width:0.26457769" d="m 57.529834,249.52534 c -13.060408,2.32419 -14.113667,0.52662 -12.49867,7.26748 3.651297,15.2231 -3.229994,14.90712 -1.474562,21.43733 0.912824,3.47575 2.668255,1.79054 11.304976,-7.32366 5.757814,-6.05273 4.985425,-21.80246 2.668256,-21.38115 z" id="path1417-4-4" />
+<path inkscape:connector-curvature="0" style="fill:#a28062;stroke-width:0.26457769" d="m 27.406635,273.49048 c 7.794114,2.94913 5.336511,3.2651 12.849756,0 3.510862,-1.47456 -1.474562,9.90063 -3.861948,8.68588 -2.106518,-1.10242 -2.878908,-1.05326 -4.915208,0 -2.80869,1.42541 -7.302593,-10.53259 -4.0726,-8.68588 z" id="path1419-1-2" />
+<path inkscape:connector-curvature="0" style="fill:#a28062;stroke-width:0.26457769" d="m 48.401592,245.05952 c -11.515629,-1.47456 -18.677788,-1.42541 -29.06994,0 -5.406728,0.73728 7.232376,6.68468 9.128242,6.05273 4.423686,-1.42541 6.1089,-1.58691 10.602804,0 2.387386,0.8426 14.605187,-5.37162 9.338894,-6.05273 z" id="path1421-6-4" />
+<path id="path2603" d="m 33.823514,255.02439 a 8.0833609,8.0833609 0 0 0 -8.031355,8.08402 8.0833609,8.0833609 0 0 0 8.031355,8.08402 8.0833609,8.0833609 0 0 0 8.097185,-8.08402 8.0833609,8.0833609 0 0 0 -8.097185,-8.08402 z m 0,4.29875 a 3.7833605,3.7833605 0 0 1 3.818185,3.78527 3.7833605,3.7833605 0 0 1 -3.818185,3.77868 3.7833605,3.7833605 0 0 1 -3.752355,-3.77868 3.7833605,3.7833605 0 0 1 3.752355,-3.78527 z" style="fill:#191423;stroke-width:0.88198239;stroke-linecap:round;stroke-linejoin:round" inkscape:connector-curvature="0" />
+<rect style="fill:#c27d1a;stroke-width:1.58749998" id="rect1211" width="25.4" height="25.4" x="42.333332" y="271.60001" />
+<path style="fill:#f6f6f6;stroke-width:0.26458332" inkscape:connector-curvature="0" class="icon-vs-action-orange" d="m 60.325,286.41666 2.116667,2.11667 -3.175,3.175 -2.116667,-2.11667 1.058333,-1.05833 h -3.175 v -5.29167 H 52.916667 L 50.8,285.35833 l -3.175,-3.175 5.291667,-5.29167 3.175,3.175 -2.116667,2.11667 h 5.291667 L 60.325,281.125 l 2.116667,2.11666 -3.175,3.175 L 57.15,284.3 l 1.058333,-1.05834 h -2.116666 v 4.23334 l 3.173941,0.002 z" id="path1192" />
+</g>
+</g>
+<style id="style833" type="text/css">.icon-canvas-transparent{opacity:0;fill:#F6F6F6;} .icon-vs-out{fill:#F6F6F6;} .icon-vs-fg{fill:#F0EFF1;} .icon-vs-action-purple{fill:#652D90;}</style>
+<style id="style854">.icon-canvas-transparent{opacity:0;fill:#f6f6f6}.icon-vs-out{fill:#f6f6f6}.icon-vs-action-orange{fill:#c27d1a}</style>
+<style id="style878" type="text/css">.icon-canvas-transparent{opacity:0;fill:#F6F6F6;} .icon-vs-out{fill:#F6F6F6;} .icon-vs-bg{fill:#424242;} .icon-vs-fg{fill:#F0EFF1;}</style>
+<style id="style1021" type="text/css">.icon-canvas-transparent{opacity:0;fill:#F6F6F6;} .icon-vs-out{fill:#F6F6F6;} .icon-vs-bg{fill:#424242;} .icon-vs-fg{fill:#F0EFF1;}</style>
+<style id="style1042" type="text/css">.icon-canvas-transparent{opacity:0;fill:#F6F6F6;} .icon-vs-out{fill:#F6F6F6;} .icon-vs-fg{fill:#F0EFF1;} .icon-vs-action-purple{fill:#652D90;}</style>
+<style id="style1063">.icon-canvas-transparent{opacity:0;fill:#f6f6f6}.icon-vs-out{fill:#f6f6f6}.icon-vs-action-orange{fill:#c27d1a}</style>
+<style id="style1187">.icon-canvas-transparent{opacity:0;fill:#f6f6f6}.icon-vs-out{fill:#f6f6f6}.icon-vs-action-orange{fill:#c27d1a}</style>
+<style id="style1260" type="text/css">.icon-canvas-transparent{opacity:0;fill:#F6F6F6;} .icon-vs-out{fill:#F6F6F6;} .icon-vs-fg{fill:#F0EFF1;} .icon-vs-action-purple{fill:#652D90;}</style>
+<style id="style1289" type="text/css">.icon-canvas-transparent{opacity:0;fill:#F6F6F6;} .icon-vs-out{fill:#F6F6F6;} .icon-vs-bg{fill:#424242;} .icon-vs-fg{fill:#F0EFF1;} .icon-vs-action-purple{fill:#652D90;}</style>
+<style id="style1377">.icon-vs-out{fill:#f6f6f6}.icon-vs-action-blue{fill:#00539c}.st0{opacity:0;fill:#f6f6f6}</style>
+<style id="style1399">.icon-canvas-transparent{opacity:0;fill:#f6f6f6}.icon-vs-out{fill:#f6f6f6}.icon-vs-action-blue{fill:#00539c}.icon-folder_x0020_{fill:#dcb67a}.icon-bg{fill:#424242}</style>
+<style id="style1582">.icon-vs-out{fill:#f6f6f6}.icon-vs-action-blue{fill:#00539c}.st0{opacity:0;fill:#f6f6f6}</style>
+</svg>

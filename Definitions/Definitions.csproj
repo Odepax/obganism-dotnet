@@ -12,10 +12,13 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Version>0.1.0</Version>
-		<Description>Data structures for the .NET Obganism parser.</Description>
-		<Product>Obganism</Product>
+		<Version>0.1.1</Version>
 		<Authors>Odepax</Authors>
+		<Description>Data structures for the .NET Obganism parser.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIconUrl>https://raw.githubusercontent.com/Odepax/obganism-dotnet/master/Definitions/Icon-64.png</PackageIconUrl>
+		<PackageTags>Obganism</PackageTags>
+		<RepositoryUrl>https://github.com/Odepax/obganism-dotnet</RepositoryUrl>
 	</PropertyGroup>
 
 </Project>
