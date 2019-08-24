@@ -36,8 +36,10 @@ namespace Obganism.Definitions
 		}
 
 		/// <summary>
+		///
 		/// This method is intended for debug purposes.
 		/// It will not take part in API versionning.
+		///
 		/// </summary>
 		public override string ToString() =>
 			$"{ Name }:{ Type }";

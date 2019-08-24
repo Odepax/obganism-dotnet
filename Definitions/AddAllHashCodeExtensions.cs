@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Obganism
+namespace Obganism.Definitions
 {
 	internal static class AddAllHashCodeExtensions
 	{
