@@ -1,73 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Superpower;
 using Obganism.Definitions;
-using static System.StringComparison;
-using Superpower.Tokenizers;
+using Superpower;
 using Superpower.Parsers;
-using Superpower.Model;
-using Superpower.Display;
 
 namespace Obganism.Parsing
 {
 	internal static class Grammar
 	{
-		/*
-		internal enum ObganismToken
-		{
-			None,
-
-			[Token(Category = "", Description = "", Example = "")] Break,
-
-			[Token(Category = "", Description = "", Example = "")] Name,
-
-			[Token(Category = "", Description = "", Example = "")] Of,
-
-			[Token(Category = "punctuation", Description = "type introducer", Example = ":")] Colon,
-			[Token(Category = "punctuation", Description = "list starter", Example = "(")] OpenParenthesis,
-			[Token(Category = "punctuation", Description = "list terminator", Example = ")")] CloseParenthesis,
-			[Token(Category = "punctuation", Description = "block starter", Example = "{")] OpenBrace,
-			[Token(Category = "punctuation", Description = "block terminator", Example = "}")] CloseBrace
-		}
-
-		private static readonly TextParser<string> Name = (
-			Character
-				.In("etaoinsrhdlucmfywgpbvkxqjzETAOINSRHDLUCMFYWGPBVKXQJZ".ToCharArray())
-				.AtLeastOnce()
-				.Select(chars => new string(chars))
-		);
-
-		internal static readonly Tokenizer<ObganismToken> Tokenizer = new TokenizerBuilder<ObganismToken>()
-			.Ignore(Span.WhiteSpace)
-
-			.Match(Name, ObganismToken.Name)
-			//.Match(null as TextParser<char>, ObganismToken.Of)
-			//.Match(null as TextParser<char>, ObganismToken.Break)
-
-			.Match(Character.EqualTo(':'), ObganismToken.Colon)
-			.Match(Character.EqualTo('('), ObganismToken.OpenParenthesis)
-			.Match(Character.EqualTo(')'), ObganismToken.CloseParenthesis)
-			.Match(Character.EqualTo('{'), ObganismToken.OpenBrace)
-			.Match(Character.EqualTo('}'), ObganismToken.CloseBrace)
-
-			.Build();
-
-		private static readonly TokenListParser<ObganismToken, Type> Type = (
-			from name in Token.EqualTo(ObganismToken.Name).Apply(Name)
-			select new Type(name)
-		);
-
-		private static readonly TokenListParser<ObganismToken, Obgan> Obgan = (
-			from type in Type
-			select new Obgan(type)
-		);
-
-		internal static readonly TokenListParser<ObganismToken, IReadOnlyList<Obgan>> Obganism = (
-			from obgan in Obgan
-			select new List<Obgan> { obgan } as IReadOnlyList<Obgan>
-		);
-		*/
-
 		private static readonly TextParser<char[]> Formatting = Character
 			.In(' ', '\t', '\n', '\r')
 			.Many();

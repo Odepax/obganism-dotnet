@@ -104,6 +104,11 @@ namespace Obganism.Parsing.Tests
 			{
 				"special offer",
 				new[] { new Obgan(new Type("special offer")) }
+			},
+			new object[]
+			{
+				"pointer of ( cat )",
+				new[] { new Obgan(new Type("pointer", new Type("cat"))) }
 			}
 		};
 
@@ -299,7 +304,6 @@ namespace Obganism.Parsing.Tests
 			}
 		};
 
-		[Ignore("...")]
 		[Test]
 		[TestCaseSource(nameof(InvalidTypeSamples))]
 		public void These_parsing_samples_fail(string input, ObganismParsingException expectedError)
@@ -308,41 +312,100 @@ namespace Obganism.Parsing.Tests
 				ConvertFromObganism(input)
 			);
 
-			// I don't care about the exception implementing .Equals() or not.
-			Assert.AreEqual(expectedError.Position, actualError.Position);
-			Assert.AreEqual(expectedError.Line, actualError.Line);
-			Assert.AreEqual(expectedError.Column, actualError.Column);
-			Assert.AreEqual(expectedError.Context, actualError.Context);
-			Assert.AreEqual(expectedError.Comment, actualError.Comment);
+			// I don't care about the exception not implementing .Equals().
+			Assert.AreEqual(
+				( expectedError.Position, expectedError.Line, expectedError.Column ), //, expectedError.Context, expectedError.Comment),
+				( actualError.Position, actualError.Line, actualError.Column ) //, actualError.Context, actualError.Comment )
+			);
 		}
 
 		public static readonly object[] InvalidTypeSamples =
 		{
 			new object[]
 			{
-				":c4t",
-				new ObganismParsingException(1, 1, 2, "c4t", "Names can contain only unaccentuated letters.")
+				"4",
+				new ObganismParsingException(0, 1, 0, "", "number")
+			},
+			new object[]
+			{
+				"c4t",
+				new ObganismParsingException(1, 1, 1, "", "number")
 			},
 			new object[]
 			{
 				"pointer \\to cat",
-				new ObganismParsingException(8, 1, 9, "ointer \\to cat", "In the context of a type, only the 'of' keyword can be escaped.")
+				new ObganismParsingException(8, 1, 8, "", "only of can be escaped")
 			},
 			new object[]
 			{
 				"pointer of",
-				new ObganismParsingException(8, 1, 9, "ointer of", "In the context of a type, only the 'of' keyword can be escaped.")
+				new ObganismParsingException(8, 1, 8, "", "generic is a lie")
 			},
 			new object[]
 			{
 				"pointer of \t",
-				new ObganismParsingException(8, 1, 9, "ointer of \t", "This 'of' keyword introduces no type.")
+				new ObganismParsingException(8, 1, 8, "", "generic is a lie")
 			},
 			new object[]
 			{
 				"pointer of \n",
-				new ObganismParsingException(8, 1, 9, "ointer of \n", "This 'of' keyword introduces no type.")
-			}
+				new ObganismParsingException(8, 1, 8, "", "generic is a lie")
+			},
+			new object[]
+			{
+				"pointer of {",
+				new ObganismParsingException(11, 1, 11, "", "generic is a lie")
+			},
+			new object[]
+			{
+				"cat { id }",
+				new ObganismParsingException(8, 1, 8, "", "no type")
+			},
+			new object[]
+			{
+				"cat { id : }",
+				new ObganismParsingException(10, 1, 10, "", "no type")
+			},
+			new object[]
+			{
+				"cat { id : int, }",
+				new ObganismParsingException(15, 1, 15, "", "next property is a lie")
+			},
+			new object[]
+			{
+				"cat { id : int ",
+				new ObganismParsingException(8, 1, 8, "", "no closing brace")
+			},
+			new object[]
+			{
+				"cat id : int }",
+				new ObganismParsingException(7, 1, 7, "", "no opening brace")
+			},
+			new object[]
+			{
+				"map of ( )",
+				new ObganismParsingException(8, 1, 8, "", "generic list is a lie")
+			},
+			new object[]
+			{
+				"map of ( int, )",
+				new ObganismParsingException(13, 1, 13, "", "next generic is a lie")
+			},
+			new object[]
+			{
+				"map of ( int, string",
+				new ObganismParsingException(20, 1, 20, "", "no closing parenthesis")
+			},
+			new object[]
+			{
+				"map of int, string )",
+				new ObganismParsingException(19, 1, 19, "", "no opening parenthesis, which results in a WTF closing paren, as the parser will take string a new new obgan")
+			},
+			new object[]
+			{
+				"cat { id : int name : string }",
+				new ObganismParsingException(20, 1, 20, "", "WTF another colon")
+			},
 		};
 	}
 }

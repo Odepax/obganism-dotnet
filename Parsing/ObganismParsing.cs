@@ -10,11 +10,29 @@ namespace Obganism.Parsing
 	{
 		private const int ContextSpread = 11;
 
+		/// <summary>
+		///
+		/// Converts Obganism source code into CLR Obganism AST.
+		///
+		/// </summary>
+		///
+		/// <param name="input">
+		///
+		/// Some Obganism source code as in https://github.com/Odepax/obganism-lang/wiki.
+		///
+		/// </param>
+		///
+		/// <seealso cref="Definitions" />
+		///
+		/// <exception cref="ObganismParsingException">
+		///
+		/// Thrown when the <paramref name="input"/> isn't valid Obganism.
+		///
+		/// </exception>
 		public static IReadOnlyList<Obgan> ConvertFromObganism(string input)
 		{
-			/*Result<*/IReadOnlyList<Obgan>/*>*/ parsing = Grammar.Obganism.Parse(input);
-			return parsing;
-			/*
+			Result<IReadOnlyList<Obgan>> parsing = Grammar.Obganism.TryParse(input);
+
 			if (parsing.HasValue)
 			{
 				return parsing.Value;
@@ -27,11 +45,11 @@ namespace Obganism.Parsing
 				throw new ObganismParsingException(
 					parsing.ErrorPosition.Absolute,
 					parsing.ErrorPosition.Line,
-					parsing.ErrorPosition.Column,
+					parsing.ErrorPosition.Column - 1,
 					"",//parsing.Remainder.Source.Substring(contextStartIndex, contextLength),
 					parsing.ErrorMessage
 				);
-			}*/
+			}
 		}
 	}
 }
