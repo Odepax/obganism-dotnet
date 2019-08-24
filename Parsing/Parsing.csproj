@@ -12,14 +12,22 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Version>0.1.0</Version>
-		<Description>Obganism parser for the .NET platforms.</Description>
-		<Product>Obganism</Product>
+		<Version>0.1.1</Version>
 		<Authors>Odepax</Authors>
+		<Description>Obganism parser for the .NET platforms.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIconUrl>https://raw.githubusercontent.com/Odepax/obganism-dotnet/master/Parsing/Icon-64.png</PackageIconUrl>
+		<PackageTags>Obganism</PackageTags>
+		<RepositoryUrl>https://github.com/Odepax/obganism-dotnet</RepositoryUrl>
+		<PackageProjectUrl>https://odepax.github.io/obganism-lang/</PackageProjectUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Obganism.Definitions" Version="0.1.0" />
+		<None Remove="Icon*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Obganism.Definitions" Version="0.1.1" />
 		<PackageReference Include="Superpower" Version="2.3.0" />
 	</ItemGroup>
 

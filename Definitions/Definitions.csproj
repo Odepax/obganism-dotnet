@@ -19,6 +19,11 @@
 		<PackageIconUrl>https://raw.githubusercontent.com/Odepax/obganism-dotnet/master/Definitions/Icon-64.png</PackageIconUrl>
 		<PackageTags>Obganism</PackageTags>
 		<RepositoryUrl>https://github.com/Odepax/obganism-dotnet</RepositoryUrl>
+		<PackageProjectUrl>https://odepax.github.io/obganism-lang/</PackageProjectUrl>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Icon*" />
+	</ItemGroup>
 
 </Project>
