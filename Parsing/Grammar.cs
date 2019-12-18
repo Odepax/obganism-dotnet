@@ -3,11 +3,136 @@ using System.Linq;
 using Obganism.Definitions;
 using Superpower;
 using Superpower.Parsers;
+using Superpower.Display;
+using Superpower.Tokenizers;
+using Superpower.Model;
 
 namespace Obganism.Parsing
 {
 	internal static class Grammar
 	{
+		internal enum ObganismToken
+		{
+			None,
+
+			[Token(Category = "word", Description = "part of an identifier's name", Example = "camel")] Word,
+			[Token(Category = "punctuation", Description = "casts the 'of' keyword down to standard word in type names", Example = "\\")] Escape,
+
+			[Token(Category = "punctuation", Description = "type introducer", Example = ":")] Colon,
+
+			[Token(Category = "punctuation", Description = "element separator, or decorative formatting", Example = "\n\r")] LineBreak,
+			[Token(Category = "punctuation", Description = "element separator", Example = ",")] Comma,
+
+			[Token(Category = "punctuation", Description = "list introducer", Example = "(")] OpenParen,
+			[Token(Category = "punctuation", Description = "list terminator", Example = ")")] CloseParen,
+
+			[Token(Category = "punctuation", Description = "block introducer", Example = "{")] OpenBrace,
+			[Token(Category = "punctuation", Description = "block terminator", Example = "}")] CloseBrace
+		}
+
+		private static readonly TextParser<char[]> Formatting = Character
+			.In(' ', '\t', '\n', '\r')
+			.Many();
+
+		private const string UnaccentuatedLetters = "etaoinsrhdlucmfywgpbvkxqjzETAOINSRHDLUCMFYWGPBVKXQJZ";
+
+		private static readonly TextParser<string> Word = Character
+			.In(UnaccentuatedLetters.ToCharArray())
+			.AtLeastOnce()
+			.Select(chars => new string(chars));
+
+		internal static readonly Tokenizer<ObganismToken> Tokenizer = new TokenizerBuilder<ObganismToken>()
+			.Ignore(Character.In(' ', '\t').AtLeastOnce())
+
+			.Match(Word, ObganismToken.Word)
+			.Match(Character.EqualTo('\\'), ObganismToken.Escape)
+
+			.Match(Character.EqualTo(':').Between(Formatting, Formatting), ObganismToken.Colon)
+			.Match(Character.EqualTo('(').Between(Formatting, Formatting), ObganismToken.OpenParen)
+			.Match(Character.EqualTo('{').Between(Formatting, Formatting), ObganismToken.OpenBrace)
+
+			.Match(Formatting.IgnoreThen(Character.EqualTo(')')), ObganismToken.CloseParen)
+			.Match(Formatting.IgnoreThen(Character.EqualTo('}')), ObganismToken.CloseBrace)
+
+			.Match(Character.EqualTo(',').Between(Formatting, Formatting), ObganismToken.Comma)
+			.Match(Character.In('\n', '\r').AtLeastOnce(), ObganismToken.LineBreak)
+
+			.Build();
+
+		private static readonly TokenListParser<ObganismToken, Token<ObganismToken>> Break = (
+			Token.EqualTo(ObganismToken.Comma)
+		).Or(
+			Token.EqualTo(ObganismToken.LineBreak)
+		);
+
+		private static readonly TokenListParser<ObganismToken, string> Name = (
+			Token.EqualTo(ObganismToken.Word).Apply(Word)
+				.AtLeastOnce()
+				.Select(words => string.Join(' ', words))
+		);
+
+		private static readonly TokenListParser<ObganismToken, Type> Type = (
+			from name in (
+				Token.EqualTo(ObganismToken.Word).Apply(Word).Where(word => !word.Equals("of"))
+			).Or(
+				Token.EqualTo(ObganismToken.Escape).IgnoreThen(
+					Token.EqualTo(ObganismToken.Word).Apply(Word).Where(word => word.Equals("of"))
+				)
+			)
+				.AtLeastOnce()
+				.Select(words => string.Join(' ', words))
+			select new Type(name)
+		);
+
+		private static readonly TokenListParser<ObganismToken, Property> Property = (
+			from name in Name
+			from _ in Token.EqualTo(ObganismToken.Colon)
+			from type in Type
+			select new Property(name, type)
+		);
+
+		private static readonly TokenListParser<ObganismToken, Obgan> Obgan = (
+			from type in Type
+			from properties in Property.AtLeastOnceDelimitedBy(Break)
+				.Between(
+					Token.EqualTo(ObganismToken.OpenParen),
+					Token.EqualTo(ObganismToken.CloseParen)
+				)
+				.OptionalOrDefault(new Property[0])
+			select new Obgan(type, properties)
+		);
+
+		internal static readonly TokenListParser<ObganismToken, IReadOnlyList<Obgan>> Obganism = (
+			from obgans in Obgan.ManyDelimitedBy(Break)
+				.Between(
+					Token.EqualTo(ObganismToken.LineBreak).Optional(),
+					Token.EqualTo(ObganismToken.LineBreak).Optional()
+				)
+			select new List<Obgan>(obgans) as IReadOnlyList<Obgan>
+		).AtEnd();
+
+		//private static readonly TextParser<Type> Type = (
+		//	from name in TypeName
+		//	from generics in Formatting
+		//		.IgnoreThen(Span.EqualTo("of"))
+		//		.IgnoreThen(Formatting)
+		//		.IgnoreThen(
+		//			(
+		//				Parse.Ref(() => Type)
+		//					.Select(generic => new[] { generic } as IEnumerable<Type>)
+		//			).Or(
+		//				Parse.Ref(() => Type)
+		//					.ManyDelimitedByIgnoreTrailing(Break)
+		//					.Between(Formatting, Formatting)
+		//					.Between(Character.EqualTo('('), Character.EqualTo(')'))
+		//			)
+		//		)
+		//		.Try()
+		//		.OptionalOrDefault(new Definitions.Type[0])
+		//	select new Type(name, generics)
+		//);
+
+		/*
 		private static readonly TextParser<char[]> Formatting = Character
 			.In(' ', '\t', '\n', '\r')
 			.Many();
@@ -98,6 +223,7 @@ namespace Obganism.Parsing
 			.Between(Formatting, Formatting)
 			.Select(obgans => obgans.ToList() as IReadOnlyList<Obgan>)
 			.AtEnd();
+		*/
 
 		/// <summary>
 		///

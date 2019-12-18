@@ -31,7 +31,13 @@ namespace Obganism.Parsing
 		/// </exception>
 		public static IReadOnlyList<Obgan> ConvertFromObganism(string input)
 		{
-			Result<IReadOnlyList<Obgan>> parsing = Grammar.Obganism.TryParse(input);
+			return Grammar.Obganism.Parse(
+				Grammar.Tokenizer.Tokenize(input)
+			);
+
+			TokenListParserResult<Grammar.ObganismToken, IReadOnlyList<Obgan>> parsing = Grammar.Obganism.TryParse(
+				Grammar.Tokenizer.Tokenize(input)
+			);
 
 			if (parsing.HasValue)
 			{
@@ -46,7 +52,7 @@ namespace Obganism.Parsing
 					parsing.ErrorPosition.Absolute,
 					parsing.ErrorPosition.Line,
 					parsing.ErrorPosition.Column - 1,
-					"",//parsing.Remainder.Source.Substring(contextStartIndex, contextLength),
+					"WIP",//parsing.Remainder.Source.Substring(contextStartIndex, contextLength),
 					parsing.ErrorMessage
 				);
 			}
