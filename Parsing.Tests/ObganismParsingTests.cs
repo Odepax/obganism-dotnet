@@ -62,6 +62,16 @@ namespace Obganism.Parsing.Tests
 			},
 			new object[]
 			{
+				"pointer Of cat",
+				new[] { new Obgan(new Type("pointer", new Type("cat"))) }
+			},
+			new object[]
+			{
+				"pointer OF cat",
+				new[] { new Obgan(new Type("pointer", new Type("cat"))) }
+			},
+			new object[]
+			{
 				"pointer \t of \t cat",
 				new[] { new Obgan(new Type("pointer", new Type("cat"))) }
 			},
@@ -314,8 +324,8 @@ namespace Obganism.Parsing.Tests
 
 			// I don't care about the exception not implementing .Equals().
 			Assert.AreEqual(
-				( expectedError.Position, expectedError.Line, expectedError.Column ), //, expectedError.Context, expectedError.Comment),
-				( actualError.Position, actualError.Line, actualError.Column ) //, actualError.Context, actualError.Comment )
+				(expectedError.Position, /*expectedError.Line, expectedError.Column, expectedError.Context,*/ expectedError.Comment),
+				(actualError.Position, /*actualError.Line, actualError.Column, actualError.Context,*/ actualError.Comment)
 			);
 		}
 
@@ -324,7 +334,7 @@ namespace Obganism.Parsing.Tests
 			new object[]
 			{
 				"4",
-				new ObganismParsingException(0, 1, 0, "", "number")
+				new ObganismParsingException(0, 1, 1, "", "number")
 			},
 			new object[]
 			{
@@ -333,78 +343,93 @@ namespace Obganism.Parsing.Tests
 			},
 			new object[]
 			{
+				"cassé",
+				new ObganismParsingException(4, 1, 1, "", "accent")
+			},
+			new object[]
+			{
 				"pointer \\to cat",
-				new ObganismParsingException(8, 1, 8, "", "only of can be escaped")
+				new ObganismParsingException(8, 1, 1, "", "only of can be escaped")
+			},
+			new object[]
+			{
+				"of course",
+				new ObganismParsingException(8, 1, 1, "", "leading of")
 			},
 			new object[]
 			{
 				"pointer of",
-				new ObganismParsingException(8, 1, 8, "", "generic is a lie")
+				new ObganismParsingException(8, 1, 1, "", "generic is a lie")
+			},
+			new object[]
+			{
+				"pointer of of",
+				new ObganismParsingException(8, 1, 1, "", "double of")
 			},
 			new object[]
 			{
 				"pointer of \t",
-				new ObganismParsingException(8, 1, 8, "", "generic is a lie")
+				new ObganismParsingException(8, 1, 1, "", "generic is a lie")
 			},
 			new object[]
 			{
 				"pointer of \n",
-				new ObganismParsingException(8, 1, 8, "", "generic is a lie")
+				new ObganismParsingException(8, 1, 1, "", "generic is a lie")
 			},
 			new object[]
 			{
 				"pointer of {",
-				new ObganismParsingException(11, 1, 11, "", "generic is a lie")
+				new ObganismParsingException(11, 1, 1, "", "generic is a lie")
 			},
 			new object[]
 			{
 				"cat { id }",
-				new ObganismParsingException(8, 1, 8, "", "no type")
+				new ObganismParsingException(8, 1, 1, "", "no type")
 			},
 			new object[]
 			{
 				"cat { id : }",
-				new ObganismParsingException(10, 1, 10, "", "no type")
+				new ObganismParsingException(10, 1, 1, "", "no type")
 			},
 			new object[]
 			{
 				"cat { id : int, }",
-				new ObganismParsingException(15, 1, 15, "", "next property is a lie")
+				new ObganismParsingException(15, 1, 1, "", "next property is a lie")
 			},
 			new object[]
 			{
 				"cat { id : int ",
-				new ObganismParsingException(8, 1, 8, "", "no closing brace")
+				new ObganismParsingException(8, 1, 1, "", "no closing brace")
 			},
 			new object[]
 			{
 				"cat id : int }",
-				new ObganismParsingException(7, 1, 7, "", "no opening brace")
+				new ObganismParsingException(7, 1, 1, "", "no opening brace")
 			},
 			new object[]
 			{
 				"map of ( )",
-				new ObganismParsingException(8, 1, 8, "", "generic list is a lie")
+				new ObganismParsingException(8, 1, 1, "", "generic list is a lie")
 			},
 			new object[]
 			{
 				"map of ( int, )",
-				new ObganismParsingException(13, 1, 13, "", "next generic is a lie")
+				new ObganismParsingException(13, 1, 1, "", "next generic is a lie")
 			},
 			new object[]
 			{
 				"map of ( int, string",
-				new ObganismParsingException(20, 1, 20, "", "no closing parenthesis")
+				new ObganismParsingException(20, 1, 1, "", "no closing parenthesis")
 			},
 			new object[]
 			{
 				"map of int, string )",
-				new ObganismParsingException(19, 1, 19, "", "no opening parenthesis, which results in a WTF closing paren, as the parser will take string a new new obgan")
+				new ObganismParsingException(19, 1, 1, "", "no opening parenthesis, which results in a WTF closing paren, as the parser will take string a new new obgan")
 			},
 			new object[]
 			{
 				"cat { id : int name : string }",
-				new ObganismParsingException(20, 1, 20, "", "WTF another colon")
+				new ObganismParsingException(20, 1, 1, "", "WTF another colon")
 			},
 		};
 	}
