@@ -7,11 +7,7 @@ namespace Obganism.Definitions
 		public string Name { get; }
 		public Type Type { get; }
 
-		public Property(string name, Type type)
-		{
-			Name = name;
-			Type = type;
-		}
+		public Property(string name, Type type) => (Name, Type) = (name, type);
 
 		public override bool Equals(object? obj) =>
 			!(obj is null) && (
@@ -36,10 +32,8 @@ namespace Obganism.Definitions
 		}
 
 		/// <summary>
-		///
-		/// This method is intended for debug purposes.
-		/// It will not take part in API versionning.
-		///
+		///   This method is intended for debug purposes.
+		///   Changes will not take part in API versionning.
 		/// </summary>
 		public override string ToString() =>
 			$"{ Name }:{ Type }";

@@ -9,11 +9,7 @@ namespace Obganism.Definitions
 		public string Name { get; }
 		public IReadOnlyList<Type> Generics { get; }
 
-		public Type(string name, IEnumerable<Type> generics)
-		{
-			Name = name;
-			Generics = new List<Type>(generics);
-		}
+		public Type(string name, IEnumerable<Type> generics) => (Name, Generics) = (name, generics.ToList());
 
 		public Type(string name, params Type[] generics) : this(name, generics as IEnumerable<Type>)
 		{
@@ -42,10 +38,8 @@ namespace Obganism.Definitions
 		}
 
 		/// <summary>
-		///
-		/// This method is intended for debug purposes.
-		/// It will not take part in API versionning.
-		///
+		///   This method is intended for debug purposes.
+		///   Changes will not take part in API versionning.
 		/// </summary>
 		public override string ToString() =>
 			$"{ Name }{ (Generics.Count == 0 ? "" : $"({ string.Join(",", Generics) })") }";

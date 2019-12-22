@@ -9,11 +9,7 @@ namespace Obganism.Definitions
 		public Type Type { get; }
 		public IReadOnlyList<Property> Properties { get; }
 
-		public Obgan(Type type, IEnumerable<Property> properties)
-		{
-			Type = type;
-			Properties = new List<Property>(properties);
-		}
+		public Obgan(Type type, IEnumerable<Property> properties) => (Type, Properties) = (type, properties.ToList());
 
 		public Obgan(Type type, params Property[] properties) : this(type, properties as IEnumerable<Property>)
 		{
@@ -42,10 +38,8 @@ namespace Obganism.Definitions
 		}
 
 		/// <summary>
-		///
-		/// This method is intended for debug purposes.
-		/// It will not take part in API versionning.
-		///
+		///   This method is intended for debug purposes.
+		///   Changes will not take part in API versionning.
 		/// </summary>
 		public override string ToString() =>
 			$"{ Type }{ (Properties.Count == 0 ? "" : $" {{ { string.Join(", ", Properties) } }}") }";
