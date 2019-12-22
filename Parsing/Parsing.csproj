@@ -28,7 +28,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="Obganism.Definitions" Version="0.1.1" />
-		<PackageReference Include="Superpower" Version="2.3.0" />
 	</ItemGroup>
 
 </Project>

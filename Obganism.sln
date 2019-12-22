@@ -13,9 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parsing", "Parsing\Parsing.csproj", "{27D4454C-84AA-4A9D-B35D-0FCCF8D94DA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parsing", "Parsing\Parsing.csproj", "{27D4454C-84AA-4A9D-B35D-0FCCF8D94DA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parsing.Tests", "Parsing.Tests\Parsing.Tests.csproj", "{AD110EA7-6B47-41AE-87A1-4EF08E54F15F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parsing.Tests", "Parsing.Tests\Parsing.Tests.csproj", "{AD110EA7-6B47-41AE-87A1-4EF08E54F15F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
