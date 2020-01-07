@@ -39,24 +39,21 @@ namespace Obganism.Parsing
 		private static void ReadObgan(ParsingContext context, out Obgan @out)
 		{
 			ReadType(context, out Type type);
+			SkipFormatting(context);
+			ReadProperties(context, out List<Property> properties);
 			
-			// todo: handle property
-			// todo: handle multiple properties
-
-			@out = new Obgan(type);
+			@out = new Obgan(type, properties);
 		}
 
 		private static void ReadType(ParsingContext context, out Type @out)
 		{
 			ReadTypeName(context, out string name);
-			
 			SkipFormatting(context);
 
 			if (TestOf(context))
 			{
 				SkipOf(context);
 				SkipFormatting(context);
-
 				ReadGenerics(context, out List<Type> generics);
 
 				@out = new Type(name, generics);
@@ -118,14 +115,13 @@ namespace Obganism.Parsing
 			{
 				SkipOpenParenthesis(context);
 				SkipFormatting(context);
-				
 				ReadType(context, out Type generic);
 
 				List<Type> generics = new List<Type> { generic };
 
 				while (true)
 				{
-					// Formatting already skipped by ReadType.
+					SkipFormatting(context);
 
 					if (TestComma(context))
 					{
@@ -155,6 +151,105 @@ namespace Obganism.Parsing
 				ReadType(context, out Type generic);
 
 				@out = new List<Type> { generic };
+			}
+		}
+
+		private static void ReadProperties(ParsingContext context, out List<Property> @out)
+		{
+			if (TestOpenBrace(context))
+			{
+				SkipOpenBrace(context);
+				SkipFormatting(context);
+
+				if (TestLetter(context))
+				{
+					ReadProperty(context, out Property property);
+
+					List<Property> properties = new List<Property> { property };
+
+					while (true)
+					{
+						SkipFormatting(context);
+
+						if (TestComma(context))
+						{
+							SkipComma(context);
+							SkipFormatting(context);
+						}
+
+						if (!TestLetter(context))
+							break;
+
+						ReadProperty(context, out property);
+
+						properties.Add(property);
+					}
+
+					SkipFormatting(context);
+
+					@out = properties;
+				}
+				else
+				{
+					@out = new List<Property>(0);
+				}
+
+				if (!TestCloseBrace(context))
+					throw new ObganismParsingException(context, "a closing brace");
+
+				SkipCloseBrace(context);
+			}
+			else
+			{
+				@out = new List<Property>(0);
+			}
+		}
+
+		private static void ReadProperty(ParsingContext context, out Property @out)
+		{
+			ReadPropertyName(context, out string name);
+			SkipFormatting(context);
+
+			if (!TestColon(context))
+				throw new ObganismParsingException(context, $"a colon introducing the <<{ name }>> property's type");
+			
+			SkipColon(context);
+			SkipFormatting(context);
+			ReadType(context, out Type type);
+
+			@out = new Property(name, type);
+		}
+
+		private static void ReadPropertyName(ParsingContext context, out string @out)
+		{
+			if (!TestLetter(context))
+				throw new ObganismParsingException(context, "some property name");
+
+			StringBuilder words = new StringBuilder();
+
+			ReadWord();
+
+			while (true)
+			{
+				SkipSpaces(context);
+
+				if (!TestLetter(context))
+					break;
+
+				words.Append(' ');
+
+				ReadWord();
+			}
+
+			@out = words.ToString();
+
+			void ReadWord()
+			{
+				int startPosition = context.Position;
+
+				SkipWhile(context, Letters.Contains);
+
+				words.Append(context.Source[startPosition..context.Position]);
 			}
 		}
 
@@ -222,6 +317,11 @@ namespace Obganism.Parsing
 			++context.Position;
 		}
 
+		private static void SkipColon(ParsingContext context)
+		{
+			++context.Position;
+		}
+
 		private static bool Test(ParsingContext context, System.Predicate<char> predicate)
 		{
 			return context.Position < context.Source.Length
@@ -282,6 +382,11 @@ namespace Obganism.Parsing
 		private static bool TestComma(ParsingContext context)
 		{
 			return Test(context, @char => @char == ',');
+		}
+
+		private static bool TestColon(ParsingContext context)
+		{
+			return Test(context, @char => @char == ':');
 		}
 	}
 }

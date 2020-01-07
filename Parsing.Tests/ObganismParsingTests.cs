@@ -148,6 +148,11 @@ namespace Obganism.Parsing.Tests
 			{
 				"map of \n ( \n int \n cat \n )",
 				new[] { new Obgan(new Type("map", new Type("int"), new Type("cat"))) }
+			},
+			new object[]
+			{
+				"list of (tuple of (int, int) \n pointer of cat)",
+				new[] { new Obgan(new Type("list", new Type("tuple", new Type("int"), new Type("int")), new Type("pointer", new Type("cat")))) }
 			}
 		};
 
@@ -264,6 +269,18 @@ namespace Obganism.Parsing.Tests
 					new Obgan(
 						new Type("cat"),
 						new Property("id", new Type("int")),
+						new Property("name", new Type("string"))
+					)
+				}
+			},
+			new object[]
+			{
+				"cat { position : tuple of (int, int) \n name : string }",
+				new[]
+				{
+					new Obgan(
+						new Type("cat"),
+						new Property("position", new Type("tuple", new Type("int"), new Type("int"))),
 						new Property("name", new Type("string"))
 					)
 				}
