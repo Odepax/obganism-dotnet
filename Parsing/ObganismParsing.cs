@@ -12,7 +12,7 @@ namespace Obganism.Parsing
 		/// </summary>
 		///
 		/// <param name="input">
-		///   Some Obganism source code as in https://github.com/Odepax/obganism-lang/wiki.
+		///   Some Obganism source code as per https://github.com/Odepax/obganism-lang/wiki.
 		/// </param>
 		///
 		/// <seealso cref="Obgan" />
@@ -31,12 +31,17 @@ namespace Obganism.Parsing
 		{
 			ReadObgan(context, out Obgan obgan);
 
+			// todo: handle multiple objects
+
 			@out = new List<Obgan> { obgan };
 		}
 
 		private static void ReadObgan(ParsingContext context, out Obgan @out)
 		{
 			ReadType(context, out Type type);
+			
+			// todo: handle property
+			// todo: handle multiple properties
 
 			@out = new Obgan(type);
 		}
@@ -109,12 +114,9 @@ namespace Obganism.Parsing
 
 		private static void ReadGenerics(ParsingContext context, out List<Type> @out)
 		{
-			// todo: refactor [Test|Skip][Open|Close]Parenthesis.
-			// Todo: refactor [Test|Skip]Comma.
-
-			if (Test(context, @char => @char == '('))
+			if (TestOpenParenthesis(context))
 			{
-				++context.Position;
+				SkipOpenParenthesis(context);
 				SkipFormatting(context);
 				
 				ReadType(context, out Type generic);
@@ -125,9 +127,9 @@ namespace Obganism.Parsing
 				{
 					// Formatting already skipped by ReadType.
 
-					if (Test(context, @char => @char == ','))
+					if (TestComma(context))
 					{
-						++context.Position;
+						SkipComma(context);
 						SkipFormatting(context);
 					}
 
@@ -141,10 +143,10 @@ namespace Obganism.Parsing
 
 				SkipFormatting(context);
 
-				if (!Test(context, @char => @char == ')'))
+				if (!TestCloseParenthesis(context))
 					throw new ObganismParsingException(context, "a closing parenthesis");
-				
-				++context.Position;
+
+				SkipCloseParenthesis(context);
 
 				@out = generics;
 			}
@@ -177,21 +179,48 @@ namespace Obganism.Parsing
 			SkipWhile(context, Formatting.Contains);
 		}
 
+		/*
+		private static void SkipBreak(ParsingContext context)
+		{
+			SkipFormatting(context);
+
+			if (Test(context, @char => @char == ','))
+			{
+				++context.Position;
+				SkipFormatting(context);
+			}
+		}
+		*/
+
 		private static void SkipOf(ParsingContext context)
 		{
 			context.Position += 2;
 		}
 
-		//private static void SkipBreak(ParsingContext context)
-		//{
-		//	SkipFormatting(context);
+		private static void SkipOpenParenthesis(ParsingContext context)
+		{
+			++context.Position;
+		}
 
-		//	if (Test(context, @char => @char == ','))
-		//	{
-		//		++context.Position;
-		//		SkipFormatting(context);
-		//	}
-		//}
+		private static void SkipCloseParenthesis(ParsingContext context)
+		{
+			++context.Position;
+		}
+
+		private static void SkipOpenBrace(ParsingContext context)
+		{
+			++context.Position;
+		}
+
+		private static void SkipCloseBrace(ParsingContext context)
+		{
+			++context.Position;
+		}
+
+		private static void SkipComma(ParsingContext context)
+		{
+			++context.Position;
+		}
 
 		private static bool Test(ParsingContext context, System.Predicate<char> predicate)
 		{
@@ -217,15 +246,42 @@ namespace Obganism.Parsing
 			    && context.Source.Substring(context.Position, 3).Equals("\\of", System.StringComparison.OrdinalIgnoreCase);
 		}
 
-		//private static bool TestBreak(ParsingContext context)
-		//{
-		//	int lookupPosition = context.Position;
+		/*
+		private static bool TestBreak(ParsingContext context)
+		{
+			int lookupPosition = context.Position;
 
-		//	while (lookupPosition < context.Source.Length && Spaces.Contains(context.Source[lookupPosition]))
-		//		++lookupPosition;
+			while (lookupPosition < context.Source.Length && Spaces.Contains(context.Source[lookupPosition]))
+				++lookupPosition;
 
-		//	return lookupPosition < context.Source.Length
-		//	    && Breaks.Contains(context.Source[lookupPosition]);
-		//}
+			return lookupPosition < context.Source.Length
+				&& Breaks.Contains(context.Source[lookupPosition]);
+		}
+		*/
+
+		private static bool TestOpenParenthesis(ParsingContext context)
+		{
+			return Test(context, @char => @char == '(');
+		}
+
+		private static bool TestCloseParenthesis(ParsingContext context)
+		{
+			return Test(context, @char => @char == ')');
+		}
+
+		private static bool TestOpenBrace(ParsingContext context)
+		{
+			return Test(context, @char => @char == '{');
+		}
+
+		private static bool TestCloseBrace(ParsingContext context)
+		{
+			return Test(context, @char => @char == '}');
+		}
+
+		private static bool TestComma(ParsingContext context)
+		{
+			return Test(context, @char => @char == ',');
+		}
 	}
 }
