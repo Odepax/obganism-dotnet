@@ -206,10 +206,9 @@ namespace Obganism.Parsing
 
 		private static bool TestOf(ParsingContext context)
 		{
-			// todo: handle words that start with "of", i.e. OFfer
-
-			return context.Position + 2 < context.Source.Length
-			    && context.Source.Substring(context.Position, 2).Equals("of", System.StringComparison.OrdinalIgnoreCase);
+			return context.Position + 3 < context.Source.Length
+			    && context.Source.Substring(context.Position, 2).Equals("of", System.StringComparison.OrdinalIgnoreCase)
+			    && !Letters.Contains(context.Source[context.Position + 2]);
 		}
 
 		private static bool TestEscapedOf(ParsingContext context)
