@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Text;
 using Obganism.Definitions;
 
@@ -29,11 +28,40 @@ namespace Obganism.Parsing
 
 		private static void ReadObganism(ParsingContext context, out List<Obgan> @out)
 		{
-			ReadObgan(context, out Obgan obgan);
+			SkipFormatting(context);
 
-			// todo: handle multiple objects
+			if (TestLetter(context) || TestEscapedOf(context))
+			{
+				ReadObgan(context, out Obgan obgan);
 
-			@out = new List<Obgan> { obgan };
+				List<Obgan> obgans = new List<Obgan> { obgan };
+
+				while (true)
+				{
+					SkipFormatting(context);
+
+					if (TestComma(context))
+					{
+						SkipComma(context);
+						SkipFormatting(context);
+					}
+
+					if (!(TestLetter(context) || TestEscapedOf(context)))
+						break;
+
+					ReadObgan(context, out obgan);
+
+					obgans.Add(obgan);
+				}
+
+				SkipFormatting(context);
+
+				@out = obgans;
+			}
+			else
+			{
+				@out = new List<Obgan>(0);
+			}
 		}
 
 		private static void ReadObgan(ParsingContext context, out Obgan @out)
