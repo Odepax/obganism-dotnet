@@ -11,19 +11,33 @@ namespace Obganism.Parsing
 		/// </summary>
 		///
 		/// <param name="input">
-		///   Some Obganism source code as per https://github.com/Odepax/obganism-lang/wiki.
+		///   Some Obganism source code as per <see href="https://github.com/Odepax/obganism-lang/wiki"/>.
 		/// </param>
 		///
 		/// <seealso cref="Obgan" />
 		///
 		/// <exception cref="ObganismParsingException">
-		///   Thrown when the <paramref name="input"/> isn't valid Obganism.
+		///   Thrown when the <paramref name="input"/> isn't valid Obganism,
+		///   or when a bug throws an unexcpected exception, in which case <see cref="System.Exception.InnerException"/> will be set.
 		/// </exception>
 		public static IReadOnlyList<Obgan> ConvertFromObganism(string input)
 		{
-			ReadObganism(new ParsingContext(input), out List<Obgan> output);
+			ParsingContext context = new ParsingContext(input);
 
-			return output;
+			try
+			{
+				ReadObganism(context, out List<Obgan> output);
+
+				return output;
+			}
+			catch (ObganismParsingException)
+			{
+				throw;
+			}
+			catch (System.Exception innerException)
+			{
+				throw new ObganismParsingException(context, innerException);
+			}
 		}
 
 		private static void ReadObganism(ParsingContext context, out List<Obgan> @out)
