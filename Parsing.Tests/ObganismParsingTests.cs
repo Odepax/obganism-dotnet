@@ -11,7 +11,7 @@ namespace Obganism.Parsing.Tests
 		[TestCaseSource(nameof(SimpleTypeSamples))]
 		[TestCaseSource(nameof(GenericTypeSamples))]
 		[TestCaseSource(nameof(MultiGenericTypeSamples))]
-		[TestCaseSource(nameof(EmptyObganSamples))]
+		//[TestCaseSource(nameof(EmptyObganSamples))] // TODO: See ya in 1.1!
 		[TestCaseSource(nameof(SinglePropertySamples))]
 		[TestCaseSource(nameof(MultiPropertySamples))]
 		[TestCaseSource(nameof(MultiObganSamples))]
@@ -20,7 +20,7 @@ namespace Obganism.Parsing.Tests
 
 		public static readonly object[] EmptySamples =
 		{
-			new object[] { "", new Obgan[0] },
+			new object[] { string.Empty, new Obgan[0] },
 			new object[] { " \t ", new Obgan[0] },
 			new object[] { " \n ", new Obgan[0] }
 		};
@@ -151,11 +151,21 @@ namespace Obganism.Parsing.Tests
 			},
 			new object[]
 			{
-				"list of (tuple of (int, int) \n pointer of cat)",
-				new[] { new Obgan(new Type("list", new Type("tuple", new Type("int"), new Type("int")), new Type("pointer", new Type("cat")))) }
+				"map of (tuple of (int, int) \n pointer of cat)",
+				new[] { new Obgan(new Type("map", new Type("tuple", new Type("int"), new Type("int")), new Type("pointer", new Type("cat")))) }
+			},
+			new object[]
+			{
+				"map of int,cat",
+				new[]
+				{
+					new Obgan(new Type("map", new Type("int"))),
+					new Obgan(new Type("cat"))
+				}
 			}
 		};
 
+		/*
 		public static readonly object[] EmptyObganSamples =
 		{
 			new object[]
@@ -174,6 +184,7 @@ namespace Obganism.Parsing.Tests
 				new[] { new Obgan(new Type("cat")) }
 			}
 		};
+		*/
 
 		public static readonly object[] SinglePropertySamples =
 		{
@@ -332,122 +343,235 @@ namespace Obganism.Parsing.Tests
 		};
 
 		[Test]
-		[TestCaseSource(nameof(InvalidTypeSamples))]
-		public void These_parsing_samples_fail(string input, ObganismParsingException expectedError)
+		[TestCaseSource(nameof(InvalidSimpleTypeSamples))]
+		[TestCaseSource(nameof(InvalidGenericTypeSamples))]
+		[TestCaseSource(nameof(InvalidMultiGenericTypeSamples))]
+		[TestCaseSource(nameof(InvalidEmptyObganSamples))]
+		[TestCaseSource(nameof(InvalidPropertySamples))]
+		[TestCaseSource(nameof(InvalidMultiPropertySamples))]
+		[TestCaseSource(nameof(InvalidMultiObganSamples))]
+		public void These_parsing_samples_fail(string input, (int Position, int Line, int Column, string Comment) expectedError)
 		{
-			ObganismParsingException actualError = Assert.Throws<ObganismParsingException>(() =>
-				ConvertFromObganism(input)
-			);
+			ObganismParsingException actualError = Assert.Throws<ObganismParsingException>(() => ConvertFromObganism(input));
 
-			// I don't care about the exception not implementing .Equals().
-			Assert.AreEqual(
-				(expectedError.Position, /*expectedError.Line, expectedError.Column, expectedError.Context,*/ expectedError.Comment),
-				(actualError.Position, /*actualError.Line, actualError.Column, actualError.Context,*/ actualError.Comment)
-			);
+			Assert.AreEqual(expectedError.Position, actualError.Position);
+			//Assert.AreEqual(expectedError.Line, actualError.Line);
+			//Assert.AreEqual(expectedError.Column, actualError.Column);
+			Assert.AreEqual(expectedError.Comment, actualError.Comment);
+			// I don't care about testing .Context.
+
+			// TODO: Assert on line and column.
 		}
 
-		public static readonly object[] InvalidTypeSamples =
+		private static string Comment(string expectation, string found) =>
+			$"I was expecting { expectation } here, but instead, I found { found }.";
+
+		public static readonly object[] InvalidSimpleTypeSamples =
 		{
 			new object[]
 			{
-				"4",
-				new ObganismParsingException(0, 1, 1, "", "number")
+				"4tlas",
+				(0, 1, 1, Comment("some type name", "<<4>>"))
 			},
 			new object[]
 			{
 				"c4t",
-				new ObganismParsingException(1, 1, 1, "", "number")
+				(1, 1, 1, Comment("some type name", "<<4>>"))
 			},
 			new object[]
 			{
-				"cassé",
-				new ObganismParsingException(4, 1, 1, "", "accent")
+				"cat 4 life",
+				(4, 1, 1, Comment("some type name", "<<4>>"))
 			},
 			new object[]
 			{
-				"pointer \\to cat",
-				new ObganismParsingException(8, 1, 1, "", "only of can be escaped")
+				"{}",
+				(0, 1, 1, Comment("some type name", "<<{>>"))
+			},
+			new object[]
+			{
+				"don't",
+				(3, 1, 1, Comment("some type name", "<<'>>"))
+			},
+			new object[]
+			{
+				"tac-tac",
+				(3, 1, 1, Comment("some type name", "<<->>"))
+			},
+			new object[]
+			{
+				"café",
+				(3, 1, 1, Comment("some type name", "<<é>>"))
+			}
+		};
+
+		public static readonly object[] InvalidGenericTypeSamples =
+		{
+			new object[]
+			{
+				"pointer of of cat",
+				(11, 1, 1, Comment("some generic type", "an <<of>> keyword"))
 			},
 			new object[]
 			{
 				"of course",
-				new ObganismParsingException(8, 1, 1, "", "leading of")
+				(0, 1, 1, Comment("some type name", "an <<of>> keyword"))
 			},
 			new object[]
 			{
 				"pointer of",
-				new ObganismParsingException(8, 1, 1, "", "generic is a lie")
-			},
-			new object[]
-			{
-				"pointer of of",
-				new ObganismParsingException(8, 1, 1, "", "double of")
+				(10, 1, 1, Comment("some generic type", "the end of the input"))
 			},
 			new object[]
 			{
 				"pointer of \t",
-				new ObganismParsingException(8, 1, 1, "", "generic is a lie")
+				(12, 1, 1, Comment("some generic type", "the end of the input"))
 			},
 			new object[]
 			{
 				"pointer of \n",
-				new ObganismParsingException(8, 1, 1, "", "generic is a lie")
+				(12, 1, 1, Comment("some generic type", "the end of the input"))
 			},
 			new object[]
 			{
-				"pointer of {",
-				new ObganismParsingException(11, 1, 1, "", "generic is a lie")
+				"pointer of {}",
+				(11, 1, 1, Comment("some generic type", "<<{>>"))
 			},
 			new object[]
 			{
-				"cat { id }",
-				new ObganismParsingException(8, 1, 1, "", "no type")
-			},
-			new object[]
-			{
-				"cat { id : }",
-				new ObganismParsingException(10, 1, 1, "", "no type")
-			},
-			new object[]
-			{
-				"cat { id : int, }",
-				new ObganismParsingException(15, 1, 1, "", "next property is a lie")
-			},
-			new object[]
-			{
-				"cat { id : int ",
-				new ObganismParsingException(8, 1, 1, "", "no closing brace")
-			},
-			new object[]
-			{
-				"cat id : int }",
-				new ObganismParsingException(7, 1, 1, "", "no opening brace")
-			},
+				"pointer \\to cat",
+				(8, 1, 1, "only an occurence of the <<of>> keyword can be escaped")
+			}
+		};
+
+		public static readonly object[] InvalidMultiGenericTypeSamples =
+		{
 			new object[]
 			{
 				"map of ( )",
-				new ObganismParsingException(8, 1, 1, "", "generic list is a lie")
+				(9, 1, 1, Comment("some generic type list", "<<)>>"))
 			},
 			new object[]
 			{
 				"map of ( int, )",
-				new ObganismParsingException(13, 1, 1, "", "next generic is a lie")
+				(13, 1, 1, Comment("some type name", "<<)>>"))
 			},
 			new object[]
 			{
 				"map of ( int, string",
-				new ObganismParsingException(20, 1, 1, "", "no closing parenthesis")
+				(20, 1, 1, Comment("a closing parenthesis", "the end of the input"))
 			},
 			new object[]
 			{
-				"map of int, string )",
-				new ObganismParsingException(19, 1, 1, "", "no opening parenthesis, which results in a WTF closing paren, as the parser will take string a new new obgan")
+				"map of int, string )", // <<string>> is considered as  a new object.
+				(19, 1, 1, Comment("some type name", "<<)>>"))
+			},
+			new object[]
+			{
+				"map of (tuple of (int, int) \t string)",
+				(31, 1, 1, Comment("a closing parenthesis", "<<s>>"))
+			}
+		};
+
+		public static readonly object[] InvalidEmptyObganSamples =
+		{
+			new object[]
+			{
+				"cat { \t }",
+				(8, 1, 1, Comment("some property name", "<<}>>"))
+			},
+			new object[]
+			{
+				"cat { \n }",
+				(8, 1, 1, Comment("some property name", "<<}>>"))
+			}
+		};
+
+		public static readonly object[] InvalidPropertySamples =
+		{
+			new object[]
+			{
+				"cat { map : 4tlas }",
+				(12, 1, 1, Comment("some type name", "<<4>>"))
+			},
+			new object[]
+			{
+				"cat { friend : c4t }",
+				(16, 1, 1, Comment("some type name", "<<4>>"))
+			},
+			new object[]
+			{
+				"cat { c4r : car }",
+				(7, 1, 1, Comment("some property name", "<<4>>"))
+			},
+			new object[]
+			{
+				"cat { : int }",
+				(6, 1, 1, Comment("some property name", "<<:>>"))
+			},
+			new object[]
+			{
+				"cat { id }",
+				(9, 1, 1, Comment("a colon introducing the <<id>> property's type", "<<}>>"))
+			},
+			new object[]
+			{
+				"cat { : }",
+				(6, 1, 1, Comment("some property name", "<<:>>"))
+			},
+			new object[]
+			{
+				"cat { id : }",
+				(11, 1, 1, Comment("some type name", "<<}>>"))
+			},
+			new object[]
+			{
+				"cat { id : int ",
+				(15, 1, 1, Comment("a closing brace", "the end of the input"))
+			},
+			new object[]
+			{
+				"cat id : int }",
+				(7, 1, 1, Comment("an opening brace", "<<:>>"))
+			}
+		};
+
+		public static readonly object[] InvalidMultiPropertySamples =
+		{
+			new object[]
+			{
+				"cat { id : int, }",
+				(16, 1, 1, Comment("sopme property name", "<<}>>"))
 			},
 			new object[]
 			{
 				"cat { id : int name : string }",
-				new ObganismParsingException(20, 1, 1, "", "WTF another colon")
+				(20, 1, 1, Comment("some type name", "<<:>>"))
 			},
+			new object[]
+			{
+				"cat { friends : map of (cat, float) \t name : string }",
+				(39, 1, 1, Comment("a closing brace", "<<n>>"))
+			}
+		};
+
+		public static readonly object[] InvalidMultiObganSamples =
+		{
+			new object[]
+			{
+				"cat \n 4tlas",
+				(6, 1, 1, Comment("some type name", "<<4>>"))
+			},
+			new object[]
+			{
+				"tuple of (int, string) \t cat",
+				(26, 1, 1, Comment("some break", "<<c>>"))
+			},
+			new object[]
+			{
+				"cat { id : int } \t dog",
+				(20, 1, 1, Comment("some break", "<<d>>"))
+			}
 		};
 	}
 }
