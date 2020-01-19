@@ -53,7 +53,7 @@ namespace Obganism.Parsing
 		}
 
 		internal ObganismParsingException(ParsingContext context, Exception innerException)
-			: base($"External exception @{ context.Position } L{ context.Line } C{ context.Column }. See <<.InnerException>> for detail. This is bug, please report it at https://github.com/Odepax/obganism-dotnet/issues.", innerException)
+			: base($"External exception @{ context.Position } L{ context.Line } C{ context.Column }. See <<.InnerException>> for detail. This is a bug, please report it at https://github.com/Odepax/obganism-dotnet/issues.", innerException)
 		{
 			Position = context.Position;
 			Line = context.Line;

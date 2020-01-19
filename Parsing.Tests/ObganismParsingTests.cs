@@ -448,6 +448,11 @@ namespace Obganism.Parsing.Tests
 		{
 			new object[]
 			{
+				"map of { string, int }",
+				(4, 1, 1, Comment("an open parenthesis", "<<{>>"))
+			},
+			new object[]
+			{
 				"map of ( )",
 				(9, 1, 1, Comment("some generic type list", "<<)>>"))
 			},
@@ -489,6 +494,11 @@ namespace Obganism.Parsing.Tests
 
 		public static readonly object[] InvalidPropertySamples =
 		{
+			new object[]
+			{
+				"cat ( name : string )",
+				(4, 1, 1, Comment("an open brace", "<<(>>"))
+			},
 			new object[]
 			{
 				"cat { map : 4tlas }",
@@ -571,6 +581,16 @@ namespace Obganism.Parsing.Tests
 			{
 				"cat { id : int } \t dog",
 				(20, 1, 1, Comment("some break", "<<d>>"))
+			},
+			new object[]
+			{
+				"cat,",
+				(4, 1, 1, Comment("some type name", "the end of the input"))
+			},
+			new object[]
+			{
+				",cat",
+				(0, 1, 1, Comment("some type name", "<<,>>"))
 			}
 		};
 	}

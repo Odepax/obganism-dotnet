@@ -1,0 +1,120 @@
+FUNCTION type
+	READ typename
+	CHECKPOINT
+	READ formatting
+	IF of?
+		READ of
+		READ formatting
+		IF type?
+			READ type
+		ELSE
+			READ enclosed many type
+	ELSE
+		RESTORE
+
+FUNCTION typename
+	IF escapedof?
+		READ escapedof
+	ELSE
+		READ word
+	LOOP
+		WHILE space?
+			READ space
+		IF
+			CASE of?
+				STOP
+			CASE escapedof?
+				READ escapedof
+			CASE word?
+				READ word
+		ELSE
+			STOP
+
+
+
+FUNCTION enclosed (...)
+	READ open
+	READ formatting
+	(...)
+	READ formatting
+	READ close
+
+FUNCTION any
+	IF item?
+		many
+
+FUNCTION many
+	READ item
+	WHILE break?
+		READ break
+		READ item
+
+ALT FUNCTION many
+	READ item
+	WHILE break?
+		CHECKPOINT
+		READ break
+		IF item?
+			READ item
+		ELSE
+			RESTORE
+			STOP
+
+ALT FUNCTION many
+	READ item
+	LOOP
+		WHILE space?
+			READ space
+		IF linebreak?
+			READ linebreak
+			READ formatting
+		IF
+			CASE comma?
+				READ comma
+				READ formatting
+				READ item
+			CASE item?
+				READ item
+			ELSE
+				STOP
+
+FUNCTION formatting
+	WHILE
+		CASE linebreak?
+			READ linebreak
+		CASE space?
+			READ space
+
+FUNCTION break
+	READ formatting
+	IF comma?
+		READ comma
+		READ formatting
+
+FUNCTION break?
+	WHILE space?
+		READ space
+	IF
+		CASE linebreak?
+			TRUE
+		CASE comma?
+			TRUE
+		ELSE
+			FALSE
+
+//                    ,-----------------------------------------------,
+//                    |         ,--------------------,                |
+//                    |         |                    v                v
+// "(" -> FORMATTING -+-> TYPE -+-> BREAK -> TYPE -, '->  FORMATTING -+-> ")"
+//                              ^                  |
+//                              '------------------'
+//                    ┌────────────────────────────────────────────┐
+//                    │        ┌───────────────────┐               │
+//                    │        │                   │               │
+// "(" ── FORMATTING ─┴─ TYPE ─┴─ BREAK ── TYPE ─┐ └─  FORMATTING ─── ")"
+//                             │                 │
+//                             └─────────────────┘
+// ■ │ ┐ └ ┴ ┬ ─ ┘ ┌
+
+
+TODO: do this, but with types, properties, etc...

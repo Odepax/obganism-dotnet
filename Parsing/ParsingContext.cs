@@ -1,4 +1,6 @@
-﻿namespace Obganism.Parsing
+﻿using System.Collections.Generic;
+
+namespace Obganism.Parsing
 {
 	internal sealed class ParsingContext
 	{
@@ -11,6 +13,8 @@
 
 		public int Line = 1;
 		public int Column = 1;
+
+		public Stack<int> Checkpoints = new Stack<int>(); // Todo: Initialize with capacity?
 
 		public ParsingContext(string source) => Source = source;
 	}
