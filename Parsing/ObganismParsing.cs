@@ -28,22 +28,22 @@ namespace Obganism.Parsing
 		{
 			ParsingContext context = new ParsingContext(input);
 
-			try
-			{
+			//try
+			//{
 				ReadFormatting(context);
-				ReadAny(context, TestType, ReadObject, out List<ObganismObject> objects);
+				ReadAny(context, Test, ReadObject, out List<ObganismObject> objects);
 				ReadFormatting(context);
 
 				return objects;
-			}
-			catch (ObganismParsingException) // TODO: Replace with a when (innerException !is ObganismParsingException) clause?
-			{
-				throw;
-			}
-			catch (Exception innerException)
-			{
-				throw new ObganismParsingException(context, innerException);
-			}
+		//}
+		//	catch (ObganismParsingException)
+		//	{
+		//		throw;
+		//	}
+		//	catch (Exception innerException)
+		//	{
+		//		throw ObganismParsingException.FromBug(context, innerException);
+		//	}
 		}
 		/*
 		private static void ReadObganism(ParsingContext context, out List<ObganismObject> @out) =>
@@ -61,7 +61,7 @@ namespace Obganism.Parsing
 			ReadType(context, out ObganismType type);
 			Checkpoint(context);
 			SkipFormatting(context);
-			
+
 			if (TestOpenBrace(context))
 			{
 				Confirm(context);
@@ -113,7 +113,7 @@ namespace Obganism.Parsing
 
 				if (!(TestLetter(context) || TestEscapedOf(context)) || TestOf(context))
 					break;
-			
+
 				words.Append(' ');
 
 				ReadTypeWord();
@@ -180,7 +180,7 @@ namespace Obganism.Parsing
 				SkipColon(context);
 			else
 				throw new ObganismParsingException(context, $"a colon introducing the <<{ name }>> property's type");
-			
+
 			SkipFormatting(context);
 			ReadType(context, out ObganismType type);
 
@@ -240,40 +240,25 @@ namespace Obganism.Parsing
 				++context.Position;
 		}
 
-		private static void ReadBreak(ParsingContext context)
-		{
-			ReadFormatting(context);
-
-			if (Test(context, Comma))
-			{
-				++context.Position;
-				ReadFormatting(context);
-			}
-		}
-
-		private static bool TestBreak(ParsingContext context)
-		{
-			ReadSpacing(context);
-
-			return Test(context, Breaks);
-		}
-
 		// Names
 		// ----------------------------------------------------------------
 
-		private static void ReadWord(ParsingContext context, out string @out)
+		private static void ReadWord(ParsingContext context, string expectation, out string @out)
 		{
 			int startPosition = context.Position;
 
 			while (Test(context, Letters))
 				++context.Position;
 
+			if (startPosition == context.Position || (Test(context) && !Test(context, ValidCharacters)))
+				throw ObganismParsingException.FromExpectation(context, expectation);
+
 			@out = context.Source[startPosition..context.Position];
 		}
 
-		private static void ReadName(ParsingContext context, out string @out)
+		private static void ReadName(ParsingContext context, string expectation, out string @out)
 		{
-			ReadWord(context, out string word);
+			ReadWord(context, expectation, out string word);
 
 			StringBuilder name = new StringBuilder(word);
 
@@ -283,7 +268,7 @@ namespace Obganism.Parsing
 
 				if (Test(context, Letters))
 				{
-					ReadWord(context, out word);
+					ReadWord(context, expectation, out word);
 
 					name.Append(' ');
 					name.Append(word);
@@ -332,11 +317,11 @@ namespace Obganism.Parsing
 			else
 			{
 				Restore(context);
-				
+
 				@out = new ObganismType(name);
 			}
 		}
-		
+
 		private static bool TestType(ParsingContext context)
 		{
 			return Test(context, Letters) || TestEscapedOf(context);
@@ -345,7 +330,7 @@ namespace Obganism.Parsing
 		private static void ReadTypeName(ParsingContext context, out string @out)
 		{
 			if (TestOf(context))
-				throw new ObganismParsingException(context, "some type name", "an <<of>> keyword");
+				throw ObganismParsingException.FromExpectation(context, "some type name", "an <<of>> keyword");
 
 			StringBuilder name = new StringBuilder();
 
@@ -357,7 +342,7 @@ namespace Obganism.Parsing
 			}
 			else
 			{
-				ReadWord(context, out string word);
+				ReadWord(context, "some type name", out string word);
 
 				name.Append(word);
 			}
@@ -376,7 +361,7 @@ namespace Obganism.Parsing
 				}
 				else if (Test(context, Letters))
 				{
-					ReadWord(context, out string word);
+					ReadWord(context, "some type name", out string word);
 
 					name.Append(' ');
 					name.Append(word);
@@ -395,14 +380,24 @@ namespace Obganism.Parsing
 
 		private static bool TestOf(ParsingContext context)
 		{
-			return Test(context, 3)
-			    && context.Source.Substring(context.Position, 2).Equals("of", StringComparison.OrdinalIgnoreCase)
-			    && !Letters.Contains(context.Source[context.Position + 2]);
+			return (
+				Test(context, 2) && context.Source.Substring(context.Position, 2).Equals("of", StringComparison.OrdinalIgnoreCase)
+			) && !(
+				Test(context, 3) && Letters.Contains(context.Source[context.Position + 2])
+			);
+
 		}
 
 		private static void ReadEscapedOf(ParsingContext context)
 		{
-			context.Position += 3;
+			if (
+				   Test(context, 4)
+				&& context.Source.Substring(context.Position, 3).Equals("\\of", StringComparison.OrdinalIgnoreCase)
+				&& !Letters.Contains(context.Source[context.Position + 3])
+			)
+				context.Position += 3;
+			else
+				throw ObganismParsingException.FromComment(context, "only an occurence of the <<of>> keyword can be escaped");
 		}
 
 		private static bool TestEscapedOf(ParsingContext context)
@@ -415,9 +410,9 @@ namespace Obganism.Parsing
 
 		private static void ReadProperty(ParsingContext context, out ObganismProperty @out)
 		{
-			ReadName(context, out string name);
+			ReadName(context, "some property name", out string name);
 			ReadFormatting(context);
-			ReadColon(context);
+			ReadColon(context, name);
 			ReadFormatting(context);
 			ReadType(context, out ObganismType type);
 
@@ -437,7 +432,7 @@ namespace Obganism.Parsing
 			ReadType(context, out ObganismType type);
 			Checkpoint(context);
 			ReadFormatting(context);
-			
+
 			if (Test(context, '{'))
 			{
 				Pop(context);
@@ -454,7 +449,7 @@ namespace Obganism.Parsing
 			else
 			{
 				Restore(context);
-				
+
 				@out = new ObganismObject(type);
 			}
 		}
@@ -462,9 +457,12 @@ namespace Obganism.Parsing
 		// Punctuation
 		// ----------------------------------------------------------------
 
-		private static void ReadColon(ParsingContext context)
+		private static void ReadColon(ParsingContext context, string propertyName)
 		{
-			++context.Position;
+			if (Test(context, ':'))
+				++context.Position;
+			else
+				throw ObganismParsingException.FromExpectation(context, $"a colon introducing the <<{ propertyName }>> property's type");
 		}
 
 		private static void ReadOpenParenthesis(ParsingContext context)
@@ -493,9 +491,9 @@ namespace Obganism.Parsing
 		private static void Checkpoint(ParsingContext context) => context.Checkpoints.Push(context.Position);
 		private static void Restore(ParsingContext context) => context.Position = context.Checkpoints.Pop();
 		private static void Pop(ParsingContext context) => context.Checkpoints.Pop();
-		
+
 		private static bool Test(ParsingContext context) => context.Position < context.Source.Length;
-		private static bool Test(ParsingContext context, int count) => context.Position + count < context.Source.Length;
+		private static bool Test(ParsingContext context, int count) => context.Position + count <= context.Source.Length;
 		private static bool Test(ParsingContext context, char match) => Test(context) && context.Source[context.Position] == match;
 		private static bool Test(ParsingContext context, string oneOf) => Test(context) && oneOf.Contains(context.Source[context.Position]);
 
@@ -560,12 +558,12 @@ namespace Obganism.Parsing
 		private const string Letters = "etaoinsrhdlucmfywgpbvkxqjzETAOINSRHDLUCMFYWGPBVKXQJZ"; // Ordered by usage frequency in English.
 		private const string Spaces = " \t";
 		private const string LineBreaks = "\n\r";
-		private const string Formatting = " \t\n\r";
-		private const char Comma = ',';
-		private const string Breaks = "\n\r,";
+		private const string Comma = ",";
+		private const string Formatting = Spaces + LineBreaks;
+		private const string Breaks = LineBreaks + Comma;
+		private const string ValidCharacters = Letters + Spaces + LineBreaks + Comma + "():{}\\";
 
-		private const string ValidCharacters = Letters + Spaces + Breaks + "\\:(){}"; // OLD?
-
+		// Hey hey hey! https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/goto
 
 		// TODO: add assertions and error messages
 		// TODO: remove old shit
@@ -589,7 +587,7 @@ namespace Obganism.Parsing
 		{
 			SkipWhile(context, Formatting.Contains);
 		}
-		
+
 		//*
 		private static void SkipBreak(ParsingContext context)
 		{
