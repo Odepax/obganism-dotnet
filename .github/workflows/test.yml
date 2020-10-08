@@ -1,0 +1,21 @@
+name: "Run Tests (.NET)"
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+    steps:
+
+    - name: "Clone repository"
+      uses: actions/checkout@v2
+
+    - name: "Setup .NET"
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+
+    - name: "Run tests"
+      run: dotnet test
