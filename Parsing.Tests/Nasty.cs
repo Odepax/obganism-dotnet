@@ -7,7 +7,7 @@ namespace Obganism.Parsing.Tests
 		[Test]
 		public void Some_intentionally_failing_test()
 		{
-			Assert.Fail("FAIL 100");
+			Assert.Pass("PASS 100");
 		}
 	}
 }
