@@ -1,3 +1,5 @@
+name: "Run Tests (.NET)"
+
 on:
   push:
     branches: [ "test-gh-actions" ]
