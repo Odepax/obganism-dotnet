@@ -3,6 +3,7 @@ name: "Tests"
 on:
   push:
     branches: [ "test-gh-actions" ]
+    tags: [ "tst-*" ]
 
 jobs:
   build:

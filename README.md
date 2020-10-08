@@ -1,6 +1,11 @@
 Obganism .NET
 ====
 
+on:
+  push:
+    branches: [ "test-gh-actions" ]
+    tags: [ "[0-9]+.[0-9]+.[0-9]+" ]
+
 dotnet test --collect "XPlat Code Coverage" --results-directory "./bin/Coverage"
 dotnet test --collect "XPlat Code Coverage" --results-directory "./bin/Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=json
 
