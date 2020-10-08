@@ -21,4 +21,4 @@ jobs:
       run: 'dotnet test'
       
     - name: "Publish nuget"
-      run: 'dotnet pack --output "./bin/Nuget" --include-symbols --include-source --configuration "Release" && dotnet nuget push "./bin/Nuget/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key "${{ secrets.GH_NUGET_KEY_OBGANISM }}"'
+      run: 'dotnet pack --output "./bin/Nuget" --configuration "Release" && dotnet nuget push "./bin/Nuget/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key "${{ secrets.GH_NUGET_KEY_OBGANISM }}"'

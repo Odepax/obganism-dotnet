@@ -67,10 +67,3 @@ dotnet tool install "dotnet-reportgenerator-globaltool" --tool-path "./bin/Tools
 dotnet test --collect "XPlat Code Coverage" --results-directory "./bin/Coverage"
 ./bin/Tools/reportgenerator.exe -reports:./bin/Coverage/*/* -targetdir:./bin/Coverage/Report -historydir:./bin/Coverage/History
 ```
-
-### Publish to Nuget
-
-```
-dotnet pack --output "./bin/Nuget" --include-symbols --include-source --configuration "Release"
-dotnet nuget push "./bin/Nuget/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key "..."
-```

@@ -16,7 +16,7 @@
 		<Authors>Odepax</Authors>
 		<Description>Obganism parser for the .NET platforms.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageIconUrl>https://raw.githubusercontent.com/Odepax/obganism-dotnet/master/Parsing/Icon-64.png</PackageIconUrl>
+		<PackageIcon>Icon-64.png</PackageIcon>
 		<PackageTags>Obganism</PackageTags>
 		<RepositoryUrl>https://github.com/Odepax/obganism-dotnet</RepositoryUrl>
 		<PackageProjectUrl>https://odepax.github.io/obganism-lang/</PackageProjectUrl>
@@ -24,6 +24,7 @@
 
 	<ItemGroup>
 		<None Remove="Icon*" />
+		<None Include="Icon-64.png" Pack="true" PackagePath=""/>
 	</ItemGroup>
 
 	<ItemGroup>
