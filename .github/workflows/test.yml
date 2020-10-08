@@ -2,7 +2,7 @@ name: "Run Tests (.NET)"
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "test-gh-actions" ]
 
 jobs:
   build:
