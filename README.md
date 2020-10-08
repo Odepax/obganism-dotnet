@@ -6,7 +6,7 @@ dotnet test --collect "XPlat Code Coverage" --results-directory "./bin/Coverage"
 
 ![NuGet: Obganism.Parsing](https://img.shields.io/nuget/v/Obganism.Parsing?style=flat-square&label=NuGet&logo=nuget)
 ![Coverage](https://img.shields.io/coveralls/github/Odepax/obganism-dotnet?style=flat-square&label=Coverage&logo=coveralls)
-![Tests](https://github.com/odepax/obganism-dotnet/workflows/test/badge.svg)
+![Tests](https://github.com/Odepax/obganism-dotnet/workflows/.github/workflows/test.yml/badge.svg)
 
 1. [Installation](#installation)
 2. [Usage](#usage)
