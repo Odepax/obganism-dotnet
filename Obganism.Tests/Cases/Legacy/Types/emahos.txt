@@ -1,0 +1,7 @@
+big
+cat
+
+////////////////
+
+{ type: { name: "big" } }
+{ type: { name: "cat" } }

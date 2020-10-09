@@ -1,0 +1,6 @@
+pointer of {}
+
+////////////////
+
+position: 11
+message: "A word must contain only letters."

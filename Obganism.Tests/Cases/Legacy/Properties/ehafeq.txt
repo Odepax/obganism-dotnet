@@ -1,0 +1,6 @@
+cat { id : int, }
+
+////////////////
+
+position: 16
+message: "A word must contain only letters."

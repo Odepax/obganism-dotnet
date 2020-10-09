@@ -1,0 +1,8 @@
+cat {
+	a :: T
+}
+
+////////////////
+
+position: 10
+message: "A word must contain only letters."

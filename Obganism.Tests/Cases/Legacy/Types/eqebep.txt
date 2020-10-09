@@ -1,0 +1,5 @@
+special offer
+
+////////////////
+
+type: { name: "special offer" }

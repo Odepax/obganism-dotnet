@@ -1,0 +1,6 @@
+cat { id : int
+
+////////////////
+
+position: 14
+message: "A property list must end with a brace."

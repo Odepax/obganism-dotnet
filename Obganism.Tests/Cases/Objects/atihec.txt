@@ -1,0 +1,6 @@
+cat {} dog
+
+////////////////
+
+position: 7
+message: "An object list must end with the end of the input."

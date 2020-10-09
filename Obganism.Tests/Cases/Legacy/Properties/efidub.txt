@@ -1,0 +1,6 @@
+cat { friend : c4t }
+
+////////////////
+
+position: 16
+message: "A word must contain only letters."

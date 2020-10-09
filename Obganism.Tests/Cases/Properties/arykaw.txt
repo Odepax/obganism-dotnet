@@ -1,0 +1,8 @@
+cat {
+	a : list of (A) b : B
+}
+
+////////////////
+
+position: 23
+message: "A property list must end with a brace."

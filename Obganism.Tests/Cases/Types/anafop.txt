@@ -1,0 +1,14 @@
+map of ( string, pointer of cat )
+
+////////////////
+
+type: {
+	name: "map"
+	generics: [
+		{ name: "string" }
+		{
+			name: "pointer"
+			generics: [ { name: "cat" } ]
+		}
+	]
+}

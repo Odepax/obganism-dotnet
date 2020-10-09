@@ -1,0 +1,13 @@
+cat {
+	a : list of T
+}
+
+////////////////
+
+type: { name: "cat" }
+properties: [
+	{ name: "a", type: {
+		name: "list"
+		generics: [ { name: "T" } ]
+	} }
+]

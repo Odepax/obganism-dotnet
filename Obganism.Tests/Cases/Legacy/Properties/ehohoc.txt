@@ -1,0 +1,6 @@
+cat { friends : map of (cat, float) name : string }
+
+////////////////
+
+position: 36
+message: "A property list must end with a brace."

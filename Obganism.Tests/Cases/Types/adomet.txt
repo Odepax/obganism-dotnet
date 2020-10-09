@@ -1,0 +1,6 @@
+bang!bang
+
+////////////////
+
+position: 4
+message: "A word must contain only letters."

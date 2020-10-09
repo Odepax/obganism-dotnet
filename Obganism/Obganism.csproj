@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Version>0.2.0</Version>
+		<Authors>Odepax</Authors>
+		<Description>Obganism serialization for the .NET platforms.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIcon>Icon-64.png</PackageIcon>
+		<PackageTags>Obganism</PackageTags>
+		<RepositoryUrl>https://github.com/Odepax/obganism-dotnet</RepositoryUrl>
+		<PackageProjectUrl>https://odepax.github.io/obganism-lang/</PackageProjectUrl>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="Icon-64.png" Pack="true" PackagePath=""/>
+	</ItemGroup>
+</Project>

@@ -1,0 +1,6 @@
+map of ( int, )
+
+////////////////
+
+position: 14
+message: "A word must contain only letters."

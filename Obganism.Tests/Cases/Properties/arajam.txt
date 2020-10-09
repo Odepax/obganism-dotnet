@@ -1,0 +1,12 @@
+cat {
+	a
+	:
+	T
+}
+
+////////////////
+
+type: { name: "cat" }
+properties: [
+	{ name: "a", type: { name: "T" } }
+]

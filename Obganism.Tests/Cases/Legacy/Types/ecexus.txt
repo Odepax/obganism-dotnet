@@ -1,0 +1,6 @@
+pointer \to cat
+
+////////////////
+
+position: 8
+message: "The backslash must only escape the 'of' keyword."

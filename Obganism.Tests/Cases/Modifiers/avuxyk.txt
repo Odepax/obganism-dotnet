@@ -1,0 +1,9 @@
+cat -- (
+	A,
+	B,
+)
+
+////////////////
+
+position: 17
+message: "A word must contain only letters."

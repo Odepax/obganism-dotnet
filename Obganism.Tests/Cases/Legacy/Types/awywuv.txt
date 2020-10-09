@@ -1,0 +1,10 @@
+cat 4 life
+
+////////////////
+
+position: 4
+message: "An object list must end with the end of the input."
+
+// '4' will stop the parsing of the type name, and 'cat' will be a whole object.
+// '4' isn't a break, so it will declare the end of the property list,
+// but it isn't the end of the input...

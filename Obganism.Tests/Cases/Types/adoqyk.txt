@@ -1,0 +1,6 @@
+point3d
+
+////////////////
+
+position: 5
+message: "A word must contain only letters."

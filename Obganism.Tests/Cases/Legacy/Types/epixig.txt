@@ -1,0 +1,8 @@
+list of friend \of mine
+
+////////////////
+
+type: {
+	name: "list"
+	generics: [ { name: "friend of mine" } ]
+}

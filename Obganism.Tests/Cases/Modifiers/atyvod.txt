@@ -1,0 +1,6 @@
+cat -- ()
+
+////////////////
+
+position: 8
+message: "A modifier list must contain at least 1 item."

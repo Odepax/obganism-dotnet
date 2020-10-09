@@ -1,0 +1,12 @@
+map of (tuple of (int, int)
+pointer of cat)
+
+////////////////
+
+type: {
+	name: "map"
+	generics: [
+		{ name: "tuple" generics: [ { name: "int" }, { name: "int" } ] }
+		{ name: "pointer" generics: [ { name: "cat" } ] }
+	]
+}

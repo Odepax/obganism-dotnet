@@ -1,0 +1,17 @@
+map of int, string )
+
+////////////////
+
+position: 19
+message: "An object list must end with the end of the input."
+
+// 'string' is considered as a second object.
+//
+// It will stop parsing the type name, encounter the ')',
+// which is not a '{' => no properties,
+// which is not a '--' => no modifiers,
+// so it will stop parsing the 'string' object.
+//
+// It will try to parse further, but ')' isn't a break,
+// so, it will declare the end of the object list,
+// but it's not the end of the input...

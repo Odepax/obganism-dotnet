@@ -1,0 +1,10 @@
+cat { id : int name : string }
+
+////////////////
+
+position: 20
+message: "A property list must end with a brace."
+
+// 'int name' will be considered as a single type name.
+// ':' will stop the parsing of the type name;
+// ':' isn't a break, so it will declare the end of the property list.

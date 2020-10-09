@@ -1,0 +1,8 @@
+map of (,)
+
+////////////////
+
+position: 8
+message: "A generic list must contain at least 1 type."
+
+// ',' doesn't trigger the parsing of a first type.

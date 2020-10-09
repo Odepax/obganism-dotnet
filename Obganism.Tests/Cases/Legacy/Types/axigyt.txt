@@ -1,0 +1,6 @@
+{}
+
+////////////////
+
+position: 0
+message: "A word must contain only letters."

@@ -1,0 +1,6 @@
+tac-tac
+
+////////////////
+
+position: 4
+message: "Modifiers must be introduced by 2 dashes." // It will take the dash as a modifier introducer.

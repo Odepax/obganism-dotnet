@@ -1,0 +1,11 @@
+list of pointer of cat
+
+////////////////
+
+type: {
+	name: "list"
+	generics: [ {
+		name: "pointer"
+		generics: [ { name: "cat" } ]
+	} ]
+}

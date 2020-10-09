@@ -1,0 +1,10 @@
+cat { : int }
+
+////////////////
+
+position: 6
+message: "A property list must end with a brace."
+
+// ':' isn't the start of a type name,
+// nor is it a break,
+// so, it will declare the end of the property list.

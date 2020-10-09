@@ -1,0 +1,9 @@
+map of (
+	string,
+	cat,
+)
+
+////////////////
+
+position: 24
+message: "A word must contain only letters."

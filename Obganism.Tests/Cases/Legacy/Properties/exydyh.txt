@@ -1,0 +1,13 @@
+cat { position : tuple of (int, int)
+	name : string }
+
+////////////////
+
+type: { name: "cat" }
+properties: [
+	{ name: "position", type: { name: "tuple", generics: [
+		{ name: "int" }
+		{ name: "int" }
+	] } }
+	{ name: "name", type: { name: "string" } }
+]

@@ -1,0 +1,8 @@
+cat -- mod("
+	string!
+)
+
+////////////////
+
+position: 23
+message: "A string must end with a double quote mark."

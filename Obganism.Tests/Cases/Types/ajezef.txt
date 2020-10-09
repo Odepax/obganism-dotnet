@@ -1,0 +1,9 @@
+map of ( 42 )
+
+////////////////
+
+position: 9
+message: "A generic list must contain at least 1 type."
+
+// '4' doesn't match the start of a type name,
+// hence doesn't trigger the parsing of a first type.

@@ -1,0 +1,6 @@
+\oil
+
+////////////////
+
+position: 0
+message: "The backslash must only escape the 'of' keyword."

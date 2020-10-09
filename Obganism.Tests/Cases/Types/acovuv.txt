@@ -1,0 +1,6 @@
+map of of course
+
+////////////////
+
+position: 7
+message: "The name of a type must not start with the 'of' keyword."

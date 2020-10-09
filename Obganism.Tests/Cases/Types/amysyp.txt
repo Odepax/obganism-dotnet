@@ -1,0 +1,6 @@
+map of ( string, cat
+
+////////////////
+
+position: 20
+message: "A generic list must end with a parenthesis."

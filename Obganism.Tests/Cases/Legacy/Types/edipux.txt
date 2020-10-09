@@ -1,0 +1,6 @@
+map of (tuple of (int, int) string)
+
+////////////////
+
+position: 28
+message: "A generic list must end with a parenthesis."

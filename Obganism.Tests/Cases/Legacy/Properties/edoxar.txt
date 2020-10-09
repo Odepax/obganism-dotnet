@@ -1,0 +1,14 @@
+cat ( name : string )
+
+////////////////
+
+position: 4
+message: "An object list must end with the end of the input."
+
+// It will stop parsing the type name of 'cat' when encountering '('.
+// '(' is not a '{' => no properties,
+// '(' is not a '--' => no modifiers,
+// so, it will declare te end of the type.
+//
+// Since ')' isn't a break, it will declare the end of the object list,
+// but it's not the end of the input...

@@ -1,0 +1,6 @@
+map of { string, int }
+
+////////////////
+
+position: 7
+message: "A word must contain only letters."

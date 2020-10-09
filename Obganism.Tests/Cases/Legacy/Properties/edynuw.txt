@@ -1,0 +1,12 @@
+cat id : int }
+
+////////////////
+
+position: 7
+message: "An object list must end with the end of the input."
+
+// 'cat id' will be considered as a single type name.
+// ':' isn't a '{' => no properties,
+// ':' isn't a '--' => no modifiers,
+// ':' isn't a break, so it will declare the end of the property list,
+// but it isn't the end of the input...

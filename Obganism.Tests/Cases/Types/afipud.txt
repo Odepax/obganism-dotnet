@@ -1,0 +1,6 @@
+snake_case
+
+////////////////
+
+position: 5
+message: "A word must contain only letters."

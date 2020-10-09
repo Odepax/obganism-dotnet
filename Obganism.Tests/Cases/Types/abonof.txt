@@ -1,0 +1,6 @@
+of course
+
+////////////////
+
+position: 0
+message: "The name of a type must not start with the 'of' keyword."

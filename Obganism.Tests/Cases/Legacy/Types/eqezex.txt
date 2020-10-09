@@ -1,0 +1,8 @@
+pointer of ( cat )
+
+////////////////
+
+type: {
+	name: "pointer"
+	generics: [ { name: "cat" } ]
+}

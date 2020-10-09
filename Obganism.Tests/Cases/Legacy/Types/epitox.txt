@@ -1,0 +1,9 @@
+pointer
+\of
+cat
+
+////////////////
+
+{ type: { name: "pointer" } }
+{ type: { name: "of" } }
+{ type: { name: "cat" } }

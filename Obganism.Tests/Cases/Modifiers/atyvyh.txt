@@ -1,0 +1,10 @@
+cat
+--
+mod
+
+////////////////
+
+type: { name: "cat" }
+modifiers: [
+	{ name: "mod" }
+]

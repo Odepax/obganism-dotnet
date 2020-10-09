@@ -1,0 +1,13 @@
+cat
+{
+	name
+:
+string
+}
+
+////////////////
+
+type: { name: "cat" }
+properties: [
+	{ name: "name", type: { name: "string" } }
+]

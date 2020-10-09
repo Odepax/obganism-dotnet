@@ -1,0 +1,13 @@
+map of ( string
+,
+cat )
+
+////////////////
+
+type: {
+	name: "map"
+	generics: [
+		{ name: "string" }
+		{ name: "cat" }
+	]
+}

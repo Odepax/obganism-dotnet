@@ -1,0 +1,10 @@
+cat {
+	id : int
+}
+
+////////////////
+
+type: { name: "cat" }
+properties: [
+	{ name: "id", type: { name: "int" } }
+]

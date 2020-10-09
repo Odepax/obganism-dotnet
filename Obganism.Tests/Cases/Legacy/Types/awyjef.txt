@@ -1,0 +1,6 @@
+c4t
+
+////////////////
+
+position: 1
+message: "A word must contain only letters."

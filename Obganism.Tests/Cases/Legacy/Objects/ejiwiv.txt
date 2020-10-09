@@ -1,0 +1,6 @@
+cat { id : int } dog
+
+////////////////
+
+position: 17
+message: "An object list must end with the end of the input."

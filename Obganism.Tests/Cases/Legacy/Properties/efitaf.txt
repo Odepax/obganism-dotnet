@@ -1,0 +1,6 @@
+cat { c4r : car }
+
+////////////////
+
+position: 7
+message: "A word must contain only letters."

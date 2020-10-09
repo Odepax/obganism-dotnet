@@ -1,0 +1,11 @@
+cat { friend of mine : friend of mine }
+
+////////////////
+
+type: { name: "cat" }
+properties: [
+	{ name: "friend of mine", type: {
+		name: "friend",
+		generics: [ { name: "mine" } ]
+	} }
+]

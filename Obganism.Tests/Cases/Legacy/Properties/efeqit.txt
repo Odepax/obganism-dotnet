@@ -1,0 +1,6 @@
+cat { map : 4tlas }
+
+////////////////
+
+position: 12
+message: "A word must contain only letters."

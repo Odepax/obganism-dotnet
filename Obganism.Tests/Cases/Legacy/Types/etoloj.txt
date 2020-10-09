@@ -1,0 +1,11 @@
+map of 	 ( 	 int 	 , 	 cat 	 )
+
+////////////////
+
+type: {
+	name: "map"
+	generics: [
+		{ name: "int" }
+		{ name: "cat" }
+	]
+}

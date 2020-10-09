@@ -1,0 +1,7 @@
+cat 	 , 	 dog 	 , 	 camel
+
+////////////////
+
+{ type: { name: "cat" } }
+{ type: { name: "dog" } }
+{ type: { name: "camel" } }

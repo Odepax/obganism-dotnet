@@ -1,0 +1,6 @@
+cat { id : }
+
+////////////////
+
+position: 11
+message: "A word must contain only letters." // It will try to parse a type name, and will stumble on the brace.

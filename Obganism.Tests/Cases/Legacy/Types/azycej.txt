@@ -1,0 +1,6 @@
+pointer of
+
+////////////////
+
+position: 10
+message: "A word must contain only letters." # It will try to parse mandatory type after 'of', just to stumble on then end of the input.

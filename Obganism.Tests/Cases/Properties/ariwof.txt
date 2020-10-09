@@ -1,0 +1,8 @@
+cat {
+	a \of : T
+}
+
+////////////////
+
+position: 9
+message: "The name of a property must be followed by a colon."

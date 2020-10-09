@@ -1,0 +1,5 @@
+pointer \of cat
+
+////////////////
+
+type: { name: "pointer of cat" }

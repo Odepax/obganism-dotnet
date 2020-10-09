@@ -1,0 +1,6 @@
+tuple of (int, string) cat
+
+////////////////
+
+position: 23
+message: "An object list must end with the end of the input."

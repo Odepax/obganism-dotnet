@@ -1,0 +1,9 @@
+cat {,}
+
+////////////////
+
+position: 5
+message: "A property list must end with a brace."
+
+// ',' doesn't trigger the parsing of the first property,
+// so it will declare the end of the list.

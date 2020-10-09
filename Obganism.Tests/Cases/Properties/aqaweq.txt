@@ -1,0 +1,10 @@
+cat {
+	of course : T
+}
+
+////////////////
+
+type: { name: "cat" }
+properties: [
+	{ name: "of course", type: { name: "T" } }
+]

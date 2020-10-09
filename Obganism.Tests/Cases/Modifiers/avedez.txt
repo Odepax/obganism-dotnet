@@ -1,0 +1,17 @@
+cat -- mod(42, 42.512, "", " "" ", name, of course, : list of T)
+
+////////////////
+
+type: { name: "cat" }
+modifiers: [ {
+	name: "mod"
+	parameters: [
+		{ type: "int", value: 42 }
+		{ type: "float", value: 42.512 }
+		{ type: "string", value: "" }
+		{ type: "string", value: " \" " }
+		{ type: "name", value: "name" }
+		{ type: "name", value: "of course" }
+		{ type: "type", value: { name: "list", generics: [ { name: "T" } ] } }
+	]
+} ]

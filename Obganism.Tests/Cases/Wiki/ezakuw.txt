@@ -1,0 +1,178 @@
+id
+unique id
+name
+nick name
+target current position
+
+id
+string
+dependency injector
+
+list of cat
+weak set of pointer of cat
+map of (string, user)
+
+message \of the day
+
+properties {
+   id : int
+   name : string
+
+   best friends : list of person
+
+   message of the day : message \of the day
+
+   level : int -- between(1, 10)
+   name : string -- ( not empty, max length(100) )
+}
+
+point { x : float, y : float }
+
+user {
+   id : int -- min(1)
+   name : string -- ( not empty, max length(100) )
+   is muted : bool
+}
+
+binary tree of T {
+   root : T
+   left : binary tree of T
+   right : binary tree of T
+} -- doc("A.k.a ""B-Tree"".")
+
+nothing -- singleton
+
+potato {
+   color : string -- one of("yellow", "orange", "brown", "purple")
+   firmness : float -- in(0.0, 1.0)
+   is peeled : boolean -- default(false)
+}
+
+////////////////
+
+{ type: { name: "id" } }
+{ type: { name: "unique id" } }
+{ type: { name: "name" } }
+{ type: { name: "nick name" } }
+{ type: { name: "target current position" } }
+
+{ type: { name: "id" } }
+{ type: { name: "string" } }
+{ type: { name: "dependency injector" } }
+
+{ type: {
+	name: "list"
+	generics: [ { name: "cat" } ]
+} }
+
+{ type: {
+	name: "weak set"
+	generics: [ {
+		name: "pointer"
+		generics: [ { name: "cat" } ]
+	} ]
+} }
+
+{ type: {
+	name: "map"
+	generics: [
+		{ name: "string" }
+		{ name: "user" }
+	]
+} }
+
+{ type: { name: "message of the day" } }
+
+{
+	type: { name: "properties" }
+	properties: [
+		{ name: "id", type: { name: "int" } }
+		{ name: "name", type: { name: "string" } }
+
+		{ name: "best friends", type: { name: "list", generics: [ { name: "person" } ] } }
+
+		{ name: "message of the day", type: { name: "message of the day" } }
+
+		{ name: "level", type: { name: "int" }, modifiers: [
+			{ name: "between", parameters: [
+				{ type: "int", value: 1 }
+				{ type: "int", value: 10 }
+			] }
+		] }
+
+		{ name: "name", type: { name: "string" }, modifiers: [
+			{ name: "not empty" }
+			{ name: "max length" parameters: [
+				{ type: "int", value: 100 }
+			] }
+		] }
+	]
+}
+
+{
+	type: { name: "point" }
+	properties: [
+		{ name: "x", type: { name: "float" } }
+		{ name: "y", type: { name: "float" } }
+	]
+}
+
+{
+	type: { name: "user" }
+	properties: [
+		{ name: "id", type: { name: "int" }, modifiers: [
+			{ name: "min" parameters: [
+				{ type: "int", value: 1 }
+			] }
+		] }
+
+		{ name: "name", type: { name: "string" }, modifiers: [
+			{ name: "not empty" }
+			{ name: "max length" parameters: [
+				{ type: "int", value: 100 }
+			] }
+		] }
+
+		{ name: "is muted", type: { name: "bool" } }
+	]
+}
+
+{
+	type: { name: "binary tree", generics: [ { name: "T" } ] }
+	properties: [
+		{ name: "root", type: { name: "T" } }
+		{ name: "left", type: { name: "binary tree", generics: [ { name: "T" } ] } }
+		{ name: "right", type: { name: "binary tree", generics: [ { name: "T" } ] } }
+	]
+	modifiers: [
+		{ name: "doc", parameters: [
+			{ type: "string", value: "A.k.a \"B-Tree\"." }
+		]}
+	]
+}
+
+{
+	type: { name: "nothing" }
+	modifiers: [ { name: "singleton" } ]
+}
+
+{
+	type: { name: "potato" }
+	properties: [
+		{ name: "color", type: { name: "string" }, modifiers: [ { name: "one of", parameters: [
+			{ type: "string", value: "yellow" }
+			{ type: "string", value: "orange" }
+			{ type: "string", value: "brown" }
+			{ type: "string", value: "purple" }
+		] } ] }
+
+		{ name: "firmness", type: { name: "float" }, modifiers: [ { name: "in", parameters: [
+			{ type: "float", value: 0.0 }
+			{ type: "float", value: 1.0 }
+		] } ] }
+
+		{ name: "is peeled", type: { name: "boolean" }, modifiers: [ { name: "default", parameters: [
+			{ type: "name", value: "false" }
+		] } ] }
+	]
+}
