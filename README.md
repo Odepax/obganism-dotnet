@@ -1,27 +1,23 @@
 Obganism .NET
 ====
 
-![NuGet: Obganism.Parsing](https://img.shields.io/nuget/v/Obganism.Parsing?style=flat-square&label=NuGet&logo=nuget)
+![NuGet](https://img.shields.io/nuget/v/Obganism?label=NuGet&logo=nuget)
+![Tests](https://github.com/Odepax/obganism-dotnet/workflows/tests/badge.svg)
 
 1. [Installation](#installation)
 2. [Usage](#usage)
-3. [Roadmap](#roadmap)
 
 Installation
 ----
 
-Install [Obganism.Parsing](https://www.nuget.org/packages/Obganism.Parsing/) from NuGet.
+Install [Obganism](https://www.nuget.org/packages/Obganism/) from NuGet.
 
 Usage
 ----
 
-Option A: Procedural style:
-
 ```cs
-using System.Collections.Generic; // IReadOnlyList<T>
-using Obganism.Definitions; // Obgan
-
-using static Obganism.Parsing.ObganismParsing; // ConvertFromObganism()
+using System.Collections.Generic;
+using Obganism;
 
 namespace Obganism.Example
 {
@@ -29,23 +25,9 @@ namespace Obganism.Example
    {
       public static void Main()
       {
-         IReadOnlyList<Obgan> output = ConvertFromObganism("cat { name : string }");
+         string source = "cat { name : string }";
+         ReadOnlyList<ObganismObject> output = ObganismSerializer.Deserialize(source);
       }
    }
 }
 ```
-
-Option B: Fluent style:
-
-WIP.
-
-Option C: DI-ready:
-
-WIP. Probably via another nuget.
-
-Roadmap
-----
-
-- [x] 0.1.0 &mdash; Support for [Obganism 1.0](https://github.com/Odepax/obganism-lang/wiki/Obganism-1.0).
-- [ ] 0.2.0 &mdash; Error messages.
-- [ ] 0.3.0 &mdash; Support for [Obganism 1.1](https://github.com/Odepax/obganism-lang/wiki/Obganism-1.1).
