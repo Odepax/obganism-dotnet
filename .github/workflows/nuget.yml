@@ -20,4 +20,4 @@ jobs:
         dotnet-version: 3.1.301
 
     - name: "Publish NuGet"
-      run: 'dotnet test --configuration "Release" && dotnet pack --no-build --output "./bin/NuGet" && dotnet nuget push "./bin/NuGet/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key "${{ secrets.GH_NUGET_KEY_OBGANISM }}"'
+      run: 'dotnet test --configuration "Release" && dotnet pack --configuration "Release" --no-build --output "./bin/NuGet" && dotnet nuget push "./bin/NuGet/*.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key "${{ secrets.GH_NUGET_KEY_OBGANISM }}"'
