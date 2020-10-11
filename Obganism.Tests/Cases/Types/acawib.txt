@@ -1,0 +1,5 @@
+message \of the day
+
+////////////////
+
+type: { name: "message of the day" }

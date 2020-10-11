@@ -5,12 +5,27 @@ namespace Obganism
 {
 	public static class ObganismSerializer
 	{
+		/// <summary>
+		/// Converts Obganism source code into CLR objects.
+		/// </summary>
+		///
+		/// <param name="source">
+		/// Some Obganism source code as per
+		/// <see href="https://github.com/Odepax/obganism-lang/wiki/Obganism-1.1"/>.
+		/// </param>
+		///
+		/// <exception cref="ObganismParsingException">
+		/// Thrown when the <paramref name="source"/> code isn't valid Obganism.
+		/// </exception>
 		public static IReadOnlyList<ObganismObject> Deserialize(string source) =>
 			new ParsingContext { Source = source }.ReadObjects();
 	}
 
 	public class ObganismException : Exception
 	{
+		/// <summary>
+		/// The 0-based position in the source code string at which the error was detected.
+		/// </summary>
 		public int Position;
 
 		internal ObganismException(int position, string message, Exception innerException = default) : base(message, innerException)

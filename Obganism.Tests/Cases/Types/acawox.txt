@@ -1,5 +1,6 @@
-message \of the day
+message\of the day
 
 ////////////////
 
-type: { name: "message of the day" }
+position: 7
+message: "A word must contain only letters."

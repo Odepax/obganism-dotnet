@@ -4,7 +4,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Version>0.2.0</Version>
+		<Version>0.2.0</Version> <!-- UPON CHANGE: Also check the language version referenced by the link in the doc of Obganism.ObganismSerializer.Deserialize()#source. -->
 		<Authors>Odepax</Authors>
 		<Description>Obganism serialization for the .NET platforms.</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
