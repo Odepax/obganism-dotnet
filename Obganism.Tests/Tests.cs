@@ -13,14 +13,14 @@ namespace Obganism.Tests
 		{
 			if (expected.Count == 1 && expected[0].Qo().ContainsKey("position"))
 			{
-				var actual = Assert.Throws<ObganismException>(() => ObganismSerializer.Deserialize(obo));
+				var actual = Assert.Throws<ObganismException>(() => ObganismDocument.Parse(obo));
 
 				AssertObo(expected[0].Qo(), actual);
 			}
 
 			else
 			{
-				var actual = ObganismSerializer.Deserialize(obo);
+				var actual = ObganismDocument.Parse(obo);
 
 				AssertObo(expected, actual);
 			}

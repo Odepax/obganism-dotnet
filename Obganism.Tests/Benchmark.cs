@@ -23,7 +23,7 @@ namespace Obganism.Tests
 			var obo = File.ReadAllText($"./Generated/{ count }.obo");
 
 			var watch = Stopwatch.StartNew();
-			var readOnlyLists = ObganismSerializer.Deserialize(obo);
+			var readOnlyLists = ObganismDocument.Parse(obo);
 			watch.Stop();
 
 			Assert.AreEqual(count, readOnlyLists.Count);
@@ -67,7 +67,7 @@ namespace Obganism.Tests
 			code.AppendTypeName();
 			if (Toss(0.5)) code.AppendGenerics();
 		}
-		
+
 		static void AppendProperties(this StringBuilder code)
 		{
 			code.AppendFormatting();
@@ -81,7 +81,7 @@ namespace Obganism.Tests
 			code.AppendFormatting();
 			code.Append('}');
 		}
-		
+
 		static void AppendProperty(this StringBuilder code)
 		{
 			code.AppendName();
@@ -111,7 +111,7 @@ namespace Obganism.Tests
 				code.Append(')');
 			}
 		}
-		
+
 		static void AppendModifiers(this StringBuilder code)
 		{
 			code.AppendFormatting();
@@ -131,7 +131,7 @@ namespace Obganism.Tests
 				code.Append(')');
 			}
 		}
-		
+
 		static void AppendModifier(this StringBuilder code)
 		{
 			code.AppendName();
@@ -167,7 +167,7 @@ namespace Obganism.Tests
 			code.Append('"');
 			code.Append('"');
 		}
-		
+
 		static void AppendName(this StringBuilder code)
 		{
 			for (int i = 0, c = Rand(1, 10); i < c; ++i)
@@ -181,19 +181,19 @@ namespace Obganism.Tests
 		{
 			code.AppendName();
 		}
-		
+
 		static void AppendLetter(this StringBuilder code)
 		{
 			code.Append("etaoinsrhdlucmywgpbvkxqjzETAOINSRHDLUCMYWGPBVKXQJZ"[Random.Next(0, 50)]);
 		}
-		
+
 		static void AppendSpaces(this StringBuilder code)
 		{
 			for (int i = 0, c = Rand(1, 5); i < c; ++i)
 				if (Toss(0.5)) code.Append(' ');
 				else code.Append('\t');
 		}
-		
+
 		static void AppendFormatting(this StringBuilder code)
 		{
 			for (int i = 0, c = Rand(0, 5); i < c; ++i)
@@ -204,7 +204,7 @@ namespace Obganism.Tests
 					case 2: code.Append('\n'); break;
 				}
 		}
-		
+
 		static void AppendBreak(this StringBuilder code)
 		{
 			code.AppendFormatting();

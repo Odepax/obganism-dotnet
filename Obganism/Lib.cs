@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace Obganism
 {
-	public static class ObganismSerializer
+	// TODO: Turn obo modifier param contructor to private protected.
+	// TODO: Update AST with C# 9 records.
+
+	public static class ObganismDocument
 	{
 		/// <summary>
 		/// Converts Obganism source code into CLR objects.
@@ -17,7 +20,7 @@ namespace Obganism
 		/// <exception cref="ObganismParsingException">
 		/// Thrown when the <paramref name="source"/> code isn't valid Obganism.
 		/// </exception>
-		public static IReadOnlyList<ObganismObject> Deserialize(string source) =>
+		public static IReadOnlyList<ObganismObject> Parse(string source) =>
 			new ParsingContext { Source = source }.ReadObjects();
 	}
 
